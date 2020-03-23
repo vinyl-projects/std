@@ -1,0 +1,7 @@
+# User-specific
+.idea/*
+
+# Project-specific
+vendor/*
+composer.lock
+.phpunit.result.cache
