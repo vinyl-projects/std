@@ -24,6 +24,8 @@ final class ClassObject
 
     /**
      * ClassObject constructor.
+     *
+     * @param class-string $className
      */
     private function __construct(string $className)
     {
@@ -37,6 +39,7 @@ final class ClassObject
      */
     public static function create(string $className): self
     {
+        $className = ltrim($className, '\\');
         try {
             if (!class_exists($className)) {
                 throw new InvalidArgumentException("Class [{$className}] not exists.");
@@ -49,7 +52,7 @@ final class ClassObject
             );
         }
 
-        return new self(ltrim($className, '\\'));
+        return new self($className);
     }
 
     /**
