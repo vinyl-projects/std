@@ -12,6 +12,7 @@ use Throwable;
 use function class_exists;
 use function class_implements;
 use function class_parents;
+use function ltrim;
 
 /**
  * Class ClassObject
@@ -23,10 +24,18 @@ final class ClassObject
 
     /**
      * ClassObject constructor.
+     */
+    private function __construct(string $className)
+    {
+        $this->className = $className;
+    }
+
+    /**
+     * Returns new {@see \vinyl\std\ClassObject} for given class name
      *
      * @throws \InvalidArgumentException if given class not exists
      */
-    public function __construct(string $className)
+    public static function create(string $className): self
     {
         try {
             if (!class_exists($className)) {
@@ -40,7 +49,7 @@ final class ClassObject
             );
         }
 
-        $this->className = $className;
+        return new self(ltrim($className, '\\'));
     }
 
     /**
@@ -56,11 +65,16 @@ final class ClassObject
     /**
      *  Return the parent classes of the current class
      *
-     * @return array<string, string>
+     * @return \vinyl\std\ClassObject[]
      */
-    public function toParentMap(): array
+    public function toParentClassObjectList(): array
     {
-        return class_parents($this->className);
+        $parentList = [];
+        foreach (class_parents($this->className) as $classParent) {
+            $parentList[] = new self($classParent);
+        }
+
+        return $parentList;
     }
 
     /**

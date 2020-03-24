@@ -9,6 +9,7 @@ use InvalidArgumentException;
 use ReflectionClass;
 use vinyl\std\ClassObject;
 use PHPUnit\Framework\TestCase;
+use function array_map;
 use function get_class;
 use function spl_autoload_register;
 
@@ -24,7 +25,7 @@ final class ClassObjectTest extends TestCase
     {
         $class = new class {
         };
-        $classObject = new ClassObject(get_class($class));
+        $classObject = ClassObject::create(get_class($class));
 
         self::assertEquals(get_class($class), $classObject->className());
     }
@@ -35,7 +36,7 @@ final class ClassObjectTest extends TestCase
     public function constructorThrowsExceptionIfGivenClassNotExists(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        new ClassObject('vinyl\stdTest\ClassNotExists');
+        ClassObject::create('vinyl\stdTest\ClassNotExists');
     }
 
     public function constructorThrowsExceptionIfAutoloaderThrowsError(): void
@@ -45,7 +46,7 @@ final class ClassObjectTest extends TestCase
         });
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('An exception occurred during class loading. Class: [vinyl\stdTest\ClassNotExists] Details: Test');
-        new ClassObject('vinyl\stdTest\ClassNotExists');
+        ClassObject::create('vinyl\stdTest\ClassNotExists');
     }
 
     /**
@@ -55,15 +56,18 @@ final class ClassObjectTest extends TestCase
     {
         $class = new class extends InvalidArgumentException {
         };
-        $classObject = new ClassObject(get_class($class));
+        $classObject = ClassObject::create(get_class($class));
 
         $expectedParents = [
-            'InvalidArgumentException' => 'InvalidArgumentException',
-            'LogicException'           => 'LogicException',
-            'Exception'                => 'Exception',
+            'InvalidArgumentException',
+            'LogicException',
+            'Exception',
         ];
 
-        self::assertEquals($expectedParents, $classObject->toParentMap());
+        self::assertEquals(
+            $expectedParents,
+            array_map(static fn(ClassObject $classObject) => $classObject->className(), $classObject->toParentClassObjectList())
+        );
     }
 
     /**
@@ -73,7 +77,7 @@ final class ClassObjectTest extends TestCase
     {
         $class = new class extends Exception {
         };
-        $classObject = new ClassObject(get_class($class));
+        $classObject = ClassObject::create(get_class($class));
 
         $expectedParents = [
             'Throwable' => 'Throwable',
@@ -89,7 +93,7 @@ final class ClassObjectTest extends TestCase
     {
         $class = new class {
         };
-        $classObject = new ClassObject(get_class($class));
+        $classObject = ClassObject::create(get_class($class));
 
         self::assertInstanceOf(ReflectionClass::class, $classObject->toReflectionClass());
     }
