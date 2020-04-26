@@ -9,6 +9,7 @@ use LogicException;
 use ReflectionClass;
 use ReflectionException;
 use Throwable;
+use function array_values;
 use function class_exists;
 use function class_implements;
 use function class_parents;
@@ -81,13 +82,13 @@ final class ClassObject
     }
 
     /**
-     * Return the interfaces which are implemented by current class
+     * Returns the interfaces which are implemented by current class
      *
-     * @return array<string, string>
+     * @return string[]
      */
-    public function toInterfaceMap(): array
+    public function toInterfaceList(): array
     {
-        return class_implements($this->className);
+        return array_values(class_implements($this->className));
     }
 
     /**

@@ -76,17 +76,17 @@ final class ClassObjectTest extends TestCase
     /**
      * @test
      */
-    public function toInterfaceMap(): void
+    public function toInterfaceList(): void
     {
         $class = new class extends Exception {
         };
         $classObject = ClassObject::create(get_class($class));
 
         $expectedParents = [
-            'Throwable' => 'Throwable',
+            'Throwable',
         ];
 
-        self::assertEquals($expectedParents, $classObject->toInterfaceMap());
+        self::assertEquals($expectedParents, $classObject->toInterfaceList());
     }
 
     /**
