@@ -39,6 +39,9 @@ final class ClassObjectTest extends TestCase
         ClassObject::create('vinyl\stdTest\ClassNotExists');
     }
 
+    /**
+     * @test
+     */
     public function constructorThrowsExceptionIfAutoloaderThrowsError(): void
     {
         spl_autoload_register(static function (): void {
