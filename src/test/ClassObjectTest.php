@@ -42,6 +42,16 @@ final class ClassObjectTest extends TestCase
     /**
      * @test
      */
+    public function constructorThrowsExceptionIfGivenClassIsEmptyString(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Class name could not be empty.');
+        ClassObject::create('');
+    }
+
+    /**
+     * @test
+     */
     public function constructorThrowsExceptionIfAutoloaderThrowsError(): void
     {
         spl_autoload_register(static function (): void {

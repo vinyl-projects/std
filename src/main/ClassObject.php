@@ -43,6 +43,10 @@ final class ClassObject
         $className = ltrim($className, '\\');
         try {
             if (!class_exists($className)) {
+                if ($className === '') {
+                    throw new InvalidArgumentException('Class name could not be empty.');
+                }
+
                 throw new InvalidArgumentException("Class [{$className}] not exists.");
             }
         } catch (Throwable $e) {
