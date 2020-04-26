@@ -51,11 +51,7 @@ final class ClassObject
                 throw new InvalidArgumentException("Class [{$className}] not exists.");
             }
         } catch (Throwable $e) {
-            throw new InvalidArgumentException(
-                "An exception occurred during class loading. Class: [{$className}] Details: {$e->getMessage()}",
-                0,
-                $e
-            );
+            throw new InvalidArgumentException("Class [{$className}] not exists.", $e->getCode(), $e);
         }
 
         return new self($className);

@@ -62,13 +62,13 @@ final class ClassObjectTest extends TestCase
     /**
      * @test
      */
-    public function constructorThrowsExceptionIfAutoloaderThrowsError(): void
+    public function expectedExceptionIsThrownIfAutoloaderThrowsAnException(): void
     {
         spl_autoload_register(static function (): void {
             throw new Exception('Test');
         });
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('An exception occurred during class loading. Class: [vinyl\stdTest\ClassNotExists] Details: Test');
+        $this->expectExceptionMessage('Class [vinyl\stdTest\ClassNotExists] not exists.');
         ClassObject::create('vinyl\stdTest\ClassNotExists');
     }
 
