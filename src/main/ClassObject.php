@@ -13,6 +13,7 @@ use function array_values;
 use function class_exists;
 use function class_implements;
 use function class_parents;
+use function get_class;
 use function ltrim;
 
 /**
@@ -58,6 +59,15 @@ final class ClassObject
         }
 
         return new self($className);
+    }
+
+    /**
+     * Returns new {@see \vinyl\std\ClassObject} for given object
+     */
+    public static function createFromObject(object $object): self
+    {
+        #todo in PHP8 will be possible to use $object::class, see: https://wiki.php.net/rfc/class_name_literal_on_object
+        return new self(get_class($object));
     }
 
     /**

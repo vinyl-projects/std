@@ -65,6 +65,15 @@ final class ClassObjectTest extends TestCase
     /**
      * @test
      */
+    public function instantiateClassObjectFromObject(): void
+    {
+        $object = new class {};
+        self::assertEquals(get_class($object), ClassObject::createFromObject($object)->className());
+    }
+
+    /**
+     * @test
+     */
     public function toParentMap(): void
     {
         $class = new class extends InvalidArgumentException {
