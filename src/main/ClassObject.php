@@ -45,7 +45,7 @@ final class ClassObject
             throw new InvalidArgumentException('Class name could not be empty.');
         }
 
-        $className = ltrim($className, '\\');
+        self::throwIfClassNameStartsWithBackslash($className);
         try {
             if (!class_exists($className)) {
                 throw new InvalidArgumentException("Class [{$className}] not exists.");
@@ -114,6 +114,13 @@ final class ClassObject
             return new ReflectionClass($this->className);
         } catch (ReflectionException $e) {
             throw new LogicException($e->getMessage(), 0, $e);
+        }
+    }
+
+    private static function throwIfClassNameStartsWithBackslash(string $className): void
+    {
+        if ($className[0] === '\\') {
+            throw new InvalidArgumentException('Class name could not be started from backslash.');
         }
     }
 }

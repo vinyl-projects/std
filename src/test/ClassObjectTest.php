@@ -52,6 +52,16 @@ final class ClassObjectTest extends TestCase
     /**
      * @test
      */
+    public function exceptionIsThrownIfClassNameContainsBackslash(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Class name could not be started from backslash.');
+        ClassObject::create('\\');
+    }
+
+    /**
+     * @test
+     */
     public function constructorThrowsExceptionIfAutoloaderThrowsError(): void
     {
         spl_autoload_register(static function (): void {
