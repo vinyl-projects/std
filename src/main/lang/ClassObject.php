@@ -36,7 +36,7 @@ final class ClassObject
     }
 
     /**
-     * Returns new {@see \vinyl\std\ClassObject} for given class name
+     * Returns new {@see \vinyl\std\lang\ClassObject} for given class name
      *
      * @throws \InvalidArgumentException if given class not exists
      */
@@ -61,7 +61,7 @@ final class ClassObject
     }
 
     /**
-     * Returns new {@see \vinyl\std\ClassObject} for given object
+     * Returns new {@see \vinyl\std\lang\ClassObject} for given object
      */
     public static function createFromObject(object $object): self
     {
