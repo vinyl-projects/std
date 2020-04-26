@@ -41,13 +41,13 @@ final class ClassObject
      */
     public static function create(string $className): self
     {
+        if ($className === '') {
+            throw new InvalidArgumentException('Class name could not be empty.');
+        }
+
         $className = ltrim($className, '\\');
         try {
             if (!class_exists($className)) {
-                if ($className === '') {
-                    throw new InvalidArgumentException('Class name could not be empty.');
-                }
-
                 throw new InvalidArgumentException("Class [{$className}] not exists.");
             }
         } catch (Throwable $e) {
