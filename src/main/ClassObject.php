@@ -14,7 +14,6 @@ use function class_exists;
 use function class_implements;
 use function class_parents;
 use function get_class;
-use function ltrim;
 
 /**
  * Class ClassObject
@@ -64,6 +63,30 @@ final class ClassObject
     {
         #todo in PHP8 will be possible to use $object::class, see: https://wiki.php.net/rfc/class_name_literal_on_object
         return new self(get_class($object));
+    }
+
+    /**
+     * Returns new {@see \vinyl\std\ClassObject} for given class name or null if class not exists
+     *
+     * @throws \InvalidArgumentException if given className is empty
+     */
+    public static function tryCreate(string $className): ?self
+    {
+        if ($className === '') {
+            throw new InvalidArgumentException('Class name could not be empty.');
+        }
+
+        self::throwIfClassNameStartsWithBackslash($className);
+
+        try {
+            if (!class_exists($className)) {
+                return null;
+            }
+        } catch (Throwable $e) {
+            return null;
+        }
+
+        return new self($className);
     }
 
     /**

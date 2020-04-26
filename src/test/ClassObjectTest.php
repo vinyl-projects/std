@@ -84,6 +84,23 @@ final class ClassObjectTest extends TestCase
     /**
      * @test
      */
+    public function instantiateClassObjectThroughTryCreateMethod(): void
+    {
+        $object = new class {};
+        self::assertEquals(get_class($object), ClassObject::tryCreate(get_class($object))->className());
+    }
+
+    /**
+     * @test
+     */
+    public function tryCreateMethodReturnsNullIfGivenClassNotExists(): void
+    {
+        self::assertNull(ClassObject::tryCreate('vinyl\stdTest\ClassNotExists'));
+    }
+
+    /**
+     * @test
+     */
     public function toParentMap(): void
     {
         $class = new class extends InvalidArgumentException {
