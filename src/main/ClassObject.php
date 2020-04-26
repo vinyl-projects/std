@@ -10,10 +10,12 @@ use ReflectionClass;
 use ReflectionException;
 use Throwable;
 use function array_values;
+use function assert;
 use function class_exists;
 use function class_implements;
 use function class_parents;
 use function get_class;
+use function is_int;
 
 /**
  * Class ClassObject
@@ -50,7 +52,9 @@ final class ClassObject
                 throw new InvalidArgumentException("Class [{$className}] not exists.");
             }
         } catch (Throwable $e) {
-            throw new InvalidArgumentException("Class [{$className}] not exists.", $e->getCode(), $e);
+            $code = $e->getCode();
+            assert(is_int($code));
+            throw new InvalidArgumentException("Class [{$className}] not exists.", $code, $e);
         }
 
         return new self($className);
