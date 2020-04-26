@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace vinyl\stdTest;
+namespace vinyl\stdTest\lang;
 
 use Exception;
 use InvalidArgumentException;
 use ReflectionClass;
-use vinyl\std\ClassObject;
+use vinyl\std\lang\ClassObject;
 use PHPUnit\Framework\TestCase;
 use function array_map;
 use function get_class;

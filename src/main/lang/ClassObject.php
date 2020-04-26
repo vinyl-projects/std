@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace vinyl\std;
+namespace vinyl\std\lang;
 
 use InvalidArgumentException;
 use LogicException;
@@ -70,7 +70,7 @@ final class ClassObject
     }
 
     /**
-     * Returns new {@see \vinyl\std\ClassObject} for given class name or null if class not exists
+     * Returns new {@see \vinyl\std\lang\ClassObject} for given class name or null if class not exists
      *
      * @throws \InvalidArgumentException if given className is empty
      */
@@ -106,7 +106,7 @@ final class ClassObject
     /**
      *  Return the parent classes of the current class
      *
-     * @return \vinyl\std\ClassObject[]
+     * @return \vinyl\std\lang\ClassObject[]
      */
     public function toParentClassObjectList(): array
     {
