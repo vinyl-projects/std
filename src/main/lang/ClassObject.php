@@ -97,8 +97,19 @@ final class ClassObject
      * Returns class name
      *
      * @return class-string
+     * @deprecated use {@see \vinyl\std\lang\ClassObject::name} instead
      */
     public function className(): string
+    {
+        return $this->className;
+    }
+
+    /**
+     * Returns class name
+     *
+     * @return class-string
+     */
+    public function name(): string
     {
         return $this->className;
     }

@@ -27,7 +27,7 @@ final class ClassObjectTest extends TestCase
         };
         $classObject = ClassObject::create(get_class($class));
 
-        self::assertEquals(get_class($class), $classObject->className());
+        self::assertEquals(get_class($class), $classObject->name());
     }
 
     /**
@@ -78,7 +78,7 @@ final class ClassObjectTest extends TestCase
     public function instantiateClassObjectFromObject(): void
     {
         $object = new class {};
-        self::assertEquals(get_class($object), ClassObject::createFromObject($object)->className());
+        self::assertEquals(get_class($object), ClassObject::createFromObject($object)->name());
     }
 
     /**
@@ -87,7 +87,7 @@ final class ClassObjectTest extends TestCase
     public function instantiateClassObjectThroughTryCreateMethod(): void
     {
         $object = new class {};
-        self::assertEquals(get_class($object), ClassObject::tryCreate(get_class($object))->className());
+        self::assertEquals(get_class($object), ClassObject::tryCreate(get_class($object))->name());
     }
 
     /**
@@ -115,7 +115,7 @@ final class ClassObjectTest extends TestCase
 
         self::assertEquals(
             $expectedParents,
-            array_map(static fn(ClassObject $classObject) => $classObject->className(), $classObject->toParentClassObjectList())
+            array_map(static fn(ClassObject $classObject) => $classObject->name(), $classObject->toParentClassObjectList())
         );
     }
 
