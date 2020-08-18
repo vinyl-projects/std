@@ -10,6 +10,8 @@ use vinyl\std\composer\VendorPathResolver;
 
 /**
  * Class CacheableVendorPathResolverTest
+ *
+ * @psalm-suppress PropertyNotSetInConstructor
  */
 final class CacheableVendorPathResolverTest extends TestCase
 {

@@ -11,6 +11,8 @@ use const DIRECTORY_SEPARATOR;
 
 /**
  * Class ClassLoaderBasedVendorPathResolverTest
+ *
+ * @psalm-suppress PropertyNotSetInConstructor
  */
 final class ClassLoaderBasedVendorPathResolverTest extends TestCase
 {
