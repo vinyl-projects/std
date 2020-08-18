@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace vinyl\std\lang;
 
+use Error;
 use InvalidArgumentException;
-use LogicException;
 use ReflectionClass;
 use ReflectionException;
 use Throwable;
@@ -49,12 +49,12 @@ final class ClassObject
         self::throwIfClassNameStartsWithBackslash($className);
         try {
             if (!class_exists($className)) {
-                throw new InvalidArgumentException("Class [{$className}] not exists.");
+                throw new InvalidArgumentException("Class [{$className}] does not exists.");
             }
         } catch (Throwable $e) {
             $code = $e->getCode();
             assert(is_int($code));
-            throw new InvalidArgumentException("Class [{$className}] not exists.", $code, $e);
+            throw new InvalidArgumentException("Class [{$className}] does not exists.", $code, $e);
         }
 
         return new self($className);
@@ -91,17 +91,6 @@ final class ClassObject
         }
 
         return new self($className);
-    }
-
-    /**
-     * Returns class name
-     *
-     * @return class-string
-     * @deprecated use {@see \vinyl\std\lang\ClassObject::name} instead
-     */
-    public function className(): string
-    {
-        return $this->className;
     }
 
     /**
@@ -147,7 +136,7 @@ final class ClassObject
         try {
             return new ReflectionClass($this->className);
         } catch (ReflectionException $e) {
-            throw new LogicException($e->getMessage(), 0, $e);
+            throw new Error($e->getMessage(), 0, $e);
         }
     }
 

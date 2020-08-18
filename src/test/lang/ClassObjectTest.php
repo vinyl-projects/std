@@ -15,6 +15,8 @@ use function spl_autoload_register;
 
 /**
  * Class ClassObjectTest
+ *
+ * @psalm-suppress PropertyNotSetInConstructor
  */
 final class ClassObjectTest extends TestCase
 {
@@ -42,7 +44,7 @@ final class ClassObjectTest extends TestCase
     /**
      * @test
      */
-    public function constructorThrowsExceptionIfGivenClassIsEmptyString(): void
+    public function createThrowsExceptionIfGivenClassIsEmptyString(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Class name could not be empty.');
@@ -68,7 +70,17 @@ final class ClassObjectTest extends TestCase
             throw new Exception('Test');
         });
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Class [vinyl\stdTest\ClassNotExists] not exists.');
+        $this->expectExceptionMessage('Class [vinyl\stdTest\ClassNotExists] does not exists.');
+        ClassObject::create('vinyl\stdTest\ClassNotExists');
+    }
+
+    /**
+     * @test
+     */
+    public function exceptionIsThrownIfClassNotExists(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Class [vinyl\stdTest\ClassNotExists] does not exists.');
         ClassObject::create('vinyl\stdTest\ClassNotExists');
     }
 
@@ -84,10 +96,39 @@ final class ClassObjectTest extends TestCase
     /**
      * @test
      */
+    public function tryCreateThrowsExceptionIfGivenClassIsEmptyString(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Class name could not be empty.');
+        ClassObject::tryCreate('');
+    }
+
+    /**
+     * @test
+     */
+    public function tryCreateReturnsNullIfClassNotExists(): void
+    {
+        self::assertNull(ClassObject::tryCreate('vinyl\stdTest\ClassNotExists'));
+    }
+
+    /**
+     * @test
+     */
+    public function tryCreateReturnsNullIfAutoloaderThrowsException(): void
+    {
+        spl_autoload_register(static function (): void {
+            throw new Exception('Test');
+        });
+        self::assertNull(ClassObject::tryCreate('vinyl\stdTest\ClassNotExists'));
+    }
+
+    /**
+     * @test
+     */
     public function instantiateClassObjectThroughTryCreateMethod(): void
     {
         $object = new class {};
-        self::assertEquals(get_class($object), ClassObject::tryCreate(get_class($object))->name());
+        self::assertNotNull(ClassObject::tryCreate(get_class($object)));
     }
 
     /**
