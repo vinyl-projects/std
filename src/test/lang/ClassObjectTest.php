@@ -6,10 +6,9 @@ namespace vinyl\stdTest\lang;
 
 use Exception;
 use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use vinyl\std\lang\ClassObject;
-use PHPUnit\Framework\TestCase;
-use function array_map;
 use function get_class;
 use function spl_autoload_register;
 
@@ -154,11 +153,10 @@ final class ClassObjectTest extends TestCase
             'Exception',
         ];
 
-        $actualParents = [];
-
-        foreach ($classObject->toParentClassObjectVector() as $item) {
-            $actualParents[] = $item->name();
-        }
+        $actualParents = $classObject
+            ->toParentClassObjectVector()
+            ->map(fn(ClassObject $classObject): string => $classObject->name())
+            ->toArray();
 
         self::assertEquals($expectedParents, $actualParents);
     }
@@ -173,11 +171,7 @@ final class ClassObjectTest extends TestCase
         $classObject = ClassObject::create(get_class($class));
 
         $expectedInterfaces = ['Throwable'];
-        $actualInterfaces = [];
-
-        foreach ($classObject->toInterfaceNameVector() as $item) {
-            $actualInterfaces[] = $item;
-        }
+        $actualInterfaces = $classObject->toInterfaceNameVector()->toArray();
 
         self::assertSame($expectedInterfaces, $actualInterfaces);
     }

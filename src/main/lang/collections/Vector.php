@@ -37,4 +37,22 @@ interface Vector extends Collection
      * @throws \OutOfBoundsException if the index is out of range (index < 0 || index >= size())
      */
     public function get(int $index);
+
+    /**
+     * Returns a {@see Vector} containing the results of applying the given transform function to each element in the original {@see Vector}.
+     *
+     * @template R
+     *
+     * @psalm-param callable(T):R $transform
+     *
+     * @return Vector<R>
+     */
+    public function map(callable $transform): Vector;
+
+    /**
+     * Returns array representation of current {@see \vinyl\std\lang\collections\Vector}
+     *
+     * @psalm-return list<T>
+     */
+    public function toArray(): array;
 }

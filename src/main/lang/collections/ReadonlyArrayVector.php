@@ -118,4 +118,26 @@ abstract class ReadonlyArrayVector implements Vector
 
         return $result;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function map(callable $transform): Vector
+    {
+        $transformed = [];
+
+        foreach ($this as $item) {
+            $transformed[] = $transform($item);
+        }
+
+        return new ArrayVector($transformed);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function toArray(): array
+    {
+        return $this->elements;
+    }
 }
