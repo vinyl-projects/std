@@ -142,7 +142,7 @@ final class ClassObjectTest extends TestCase
     /**
      * @test
      */
-    public function toParentMap(): void
+    public function toParentClassObjectVector(): void
     {
         $class = new class extends InvalidArgumentException {
         };
@@ -154,26 +154,32 @@ final class ClassObjectTest extends TestCase
             'Exception',
         ];
 
-        self::assertEquals(
-            $expectedParents,
-            array_map(static fn(ClassObject $classObject) => $classObject->name(), $classObject->toParentClassObjectList())
-        );
+        $actualParents = [];
+
+        foreach ($classObject->toParentClassObjectVector() as $item) {
+            $actualParents[] = $item->name();
+        }
+
+        self::assertEquals($expectedParents, $actualParents);
     }
 
     /**
      * @test
      */
-    public function toInterfaceList(): void
+    public function toInterfaceNameVector(): void
     {
         $class = new class extends Exception {
         };
         $classObject = ClassObject::create(get_class($class));
 
-        $expectedParents = [
-            'Throwable',
-        ];
+        $expectedInterfaces = ['Throwable'];
+        $actualInterfaces = [];
 
-        self::assertEquals($expectedParents, $classObject->toInterfaceList());
+        foreach ($classObject->toInterfaceNameVector() as $item) {
+            $actualInterfaces[] = $item;
+        }
+
+        self::assertSame($expectedInterfaces, $actualInterfaces);
     }
 
     /**

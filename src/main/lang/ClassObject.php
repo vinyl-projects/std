@@ -9,13 +9,15 @@ use InvalidArgumentException;
 use ReflectionClass;
 use ReflectionException;
 use Throwable;
-use function array_values;
+use vinyl\std\lang\collections\ArrayVector;
+use vinyl\std\lang\collections\Vector;
 use function assert;
 use function class_exists;
 use function class_implements;
 use function class_parents;
 use function get_class;
 use function is_int;
+use function vinyl\std\lang\collections\vectorFromArray;
 
 /**
  * Class ClassObject
@@ -104,28 +106,28 @@ final class ClassObject
     }
 
     /**
-     *  Return the parent classes of the current class
+     * Returns the parent classes of the current class
      *
-     * @return \vinyl\std\lang\ClassObject[]
+     * @return \vinyl\std\lang\collections\Vector<\vinyl\std\lang\ClassObject>
      */
-    public function toParentClassObjectList(): array
+    public function toParentClassObjectVector(): Vector
     {
-        $parentList = [];
+        $parents = [];
         foreach (class_parents($this->className) as $classParent) {
-            $parentList[] = new self($classParent);
+            $parents[] = new self($classParent);
         }
 
-        return $parentList;
+        return new ArrayVector($parents);
     }
 
     /**
      * Returns the interfaces which are implemented by current class
      *
-     * @return string[]
+     * @return \vinyl\std\lang\collections\Vector<string>
      */
-    public function toInterfaceList(): array
+    public function toInterfaceNameVector(): Vector
     {
-        return array_values(class_implements($this->className));
+        return vectorFromArray(class_implements($this->className));
     }
 
     /**
