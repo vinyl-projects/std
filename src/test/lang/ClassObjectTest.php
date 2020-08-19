@@ -8,6 +8,7 @@ use Exception;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
+use stdClass;
 use vinyl\std\lang\ClassObject;
 use function get_class;
 use function spl_autoload_register;
@@ -186,5 +187,13 @@ final class ClassObjectTest extends TestCase
         $classObject = ClassObject::create(get_class($class));
 
         self::assertInstanceOf(ReflectionClass::class, $classObject->toReflectionClass());
+    }
+
+    /**
+     * @test
+     */
+    public function identityReturnsClassName(): void
+    {
+        self::assertSame(stdClass::class, ClassObject::createFromObject(new stdClass())->identity());
     }
 }

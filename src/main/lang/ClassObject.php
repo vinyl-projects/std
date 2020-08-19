@@ -10,6 +10,7 @@ use ReflectionClass;
 use ReflectionException;
 use Throwable;
 use vinyl\std\lang\collections\ArrayVector;
+use vinyl\std\lang\collections\Identifiable;
 use vinyl\std\lang\collections\Vector;
 use function assert;
 use function class_exists;
@@ -22,7 +23,7 @@ use function vinyl\std\lang\collections\vectorFromArray;
 /**
  * Class ClassObject
  */
-final class ClassObject
+final class ClassObject implements Identifiable
 {
     /** @var class-string */
     private string $className;
@@ -147,5 +148,13 @@ final class ClassObject
         if ($className[0] === '\\') {
             throw new InvalidArgumentException('Class name could not be started from backslash.');
         }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function identity()
+    {
+        return $this->className;
     }
 }
