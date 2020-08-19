@@ -139,6 +139,16 @@ abstract class ReadonlyVectorTest extends TestCase
     }
 
     /**
+     * @test
+     */
+    public function map(): void
+    {
+        $list = static::createList(1, 2, 3);
+        $transformedList = $list->map(fn(int $value): int => $value * $value);
+        self::assertSame([1, 4, 9], $transformedList->toArray());
+    }
+
+    /**
      * @template T
      * @psalm-param T ...$elements
      * @return \vinyl\std\lang\collections\Vector<T>
