@@ -27,7 +27,7 @@ abstract class ReadonlyArrayVector implements Vector
      * @param list<T> $elements
      * @internal to create required instance of collection use one of the available functions from this file src\main\collections\functions.php
      */
-    public function __construct(array $elements)
+    public final function __construct(array $elements)
     {
         $this->elements = $elements;
     }
