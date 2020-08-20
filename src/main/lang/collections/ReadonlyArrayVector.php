@@ -122,7 +122,7 @@ abstract class ReadonlyArrayVector implements Vector
     /**
      * {@inheritDoc}
      */
-    public function map(callable $transform): Vector
+    public function map(callable $transform)
     {
         $transformed = [];
 
@@ -130,7 +130,7 @@ abstract class ReadonlyArrayVector implements Vector
             $transformed[] = $transform($item);
         }
 
-        return new ArrayVector($transformed);
+        return new static($transformed);
     }
 
     /**

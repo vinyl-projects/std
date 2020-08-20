@@ -146,6 +146,7 @@ abstract class ReadonlyVectorTest extends TestCase
         $list = static::createList(1, 2, 3);
         $transformedList = $list->map(fn(int $value): int => $value * $value);
         self::assertSame([1, 4, 9], $transformedList->toArray());
+        self::assertSame(get_class($list), get_class($transformedList));
     }
 
     /**

@@ -45,9 +45,9 @@ interface Vector extends Collection
      *
      * @psalm-param callable(T):R $transform
      *
-     * @return Vector<R>
+     * @return static<R>
      */
-    public function map(callable $transform): Vector;
+    public function map(callable $transform);
 
     /**
      * Returns array representation of current {@see \vinyl\std\lang\collections\Vector}
