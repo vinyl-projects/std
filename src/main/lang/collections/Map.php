@@ -50,7 +50,7 @@ interface Map extends IteratorAggregate, Countable
      *
      * @psalm-param TKey $key
      *
-     * @psalm-return TValue
+     * @psalm-return TValue|null
      */
     public function find($key);
 
