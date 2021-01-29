@@ -171,7 +171,7 @@ final class ClassObjectTest extends TestCase
         };
         $classObject = ClassObject::create(get_class($class));
 
-        $expectedInterfaces = ['Throwable'];
+        $expectedInterfaces = ['Stringable', 'Throwable'];
         $actualInterfaces = $classObject->toInterfaceNameVector()->toArray();
 
         self::assertSame($expectedInterfaces, $actualInterfaces);

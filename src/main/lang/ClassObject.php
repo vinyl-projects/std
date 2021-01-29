@@ -16,7 +16,6 @@ use function assert;
 use function class_exists;
 use function class_implements;
 use function class_parents;
-use function get_class;
 use function is_int;
 use function vinyl\std\lang\collections\vectorFromArray;
 
@@ -68,8 +67,7 @@ final class ClassObject implements Identifiable
      */
     public static function createFromObject(object $object): self
     {
-        #todo in PHP8 will be possible to use $object::class, see: https://wiki.php.net/rfc/class_name_literal_on_object
-        return new self(get_class($object));
+        return new self($object::class);
     }
 
     /**
