@@ -126,7 +126,11 @@ final class ClassObject implements Identifiable
      */
     public function toInterfaceNameVector(): Vector
     {
-        return vectorFromArray(class_implements($this->className));
+        $interfaces = class_implements($this->className);
+
+        assert($interfaces !== false);
+
+        return vectorFromArray($interfaces);
     }
 
     /**

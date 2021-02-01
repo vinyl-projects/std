@@ -56,7 +56,6 @@ final class ImmutableHashSet extends ReadonlySet implements ImmutableSet
             self::assign($newSet, $element);
         }
 
-        /** @var ImmutableHashSet<TValue> $newSet */
         return $newSet;
     }
 

@@ -20,6 +20,7 @@ abstract class ImmutableVectorTest extends ReadonlyVectorTest
      */
     public function add(): void
     {
+        /** @var ImmutableVector<int> $list */
         $list = static::createList();
         $newList = $list->with(1);
 
@@ -34,6 +35,7 @@ abstract class ImmutableVectorTest extends ReadonlyVectorTest
      */
     public function addAll(): void
     {
+        /** @var ImmutableVector<int> $list */
         $list = static::createList(1, 2, 3);
         $readonlyList = vectorOf(4, 5, 6);
         $newList = $list->withAll($readonlyList);
@@ -45,9 +47,12 @@ abstract class ImmutableVectorTest extends ReadonlyVectorTest
 
     /**
      * @test
+     * @psalm-suppress InvalidReturnType
+     * @psalm-suppress InvalidReturnStatement
      */
     public function addAllWithCustomCollection(): void
     {
+        /** @var Collection<int, int> $customCollection */
         $customCollection = new class implements Collection {
             public function isEmpty(): bool
             {
@@ -75,6 +80,7 @@ abstract class ImmutableVectorTest extends ReadonlyVectorTest
             }
         };
 
+        /** @var ImmutableVector<int> $list */
         $list = static::createList(1,2,3);
         $newList = $list->withAll($customCollection);
 
@@ -88,6 +94,7 @@ abstract class ImmutableVectorTest extends ReadonlyVectorTest
      */
     public function addMany(): void
     {
+        /** @var ImmutableVector<int> $list */
         $list = static::createList();
         $newList = $list->withMany(1, 2, 3, 4);
 
@@ -101,6 +108,7 @@ abstract class ImmutableVectorTest extends ReadonlyVectorTest
      */
     public function replace(): void
     {
+        /** @var ImmutableVector<int> $list */
         $list = static::createList(1, 2, 3);
         $newList = $list->withReplaced(2, 42);
         self::assertNotSame($list, $newList);
@@ -115,6 +123,7 @@ abstract class ImmutableVectorTest extends ReadonlyVectorTest
     {
         $this->expectException(\OutOfBoundsException::class);
         $this->expectExceptionMessage('Given index [100] is out of range.');
+        /** @var ImmutableVector<int> $list */
         $list = static::createList(1, 2, 3);
         $list->withReplaced(100, 42);
     }
@@ -142,5 +151,11 @@ abstract class ImmutableVectorTest extends ReadonlyVectorTest
         $list->withRemovedAt(42);
     }
 
+    /**
+     * @template T
+     * @psalm-param T ...$elements
+     *
+     * @return \vinyl\std\lang\collections\ImmutableVector<T>
+     */
     abstract protected static function createList(...$elements): ImmutableVector;
 }

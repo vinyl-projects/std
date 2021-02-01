@@ -34,4 +34,9 @@ interface Collection extends IteratorAggregate, Countable
      * @psalm-param iterable<TValue> $items
      */
     public function containsAll(iterable $items): bool;
+
+    /**
+     * @return \Traversable<TKey, TValue>
+     */
+    public function getIterator();
 }

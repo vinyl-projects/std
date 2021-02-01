@@ -7,6 +7,7 @@ namespace vinyl\stdTest\lang\collections\set;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use vinyl\std\lang\collections\ImmutableHashSet;
+use vinyl\std\lang\collections\ImmutableSet;
 
 /**
  * Class ImmutableUnorderedSetTest
@@ -37,7 +38,7 @@ final class ImmutableUnorderedSetTest extends TestCase
     public function withAll(): void
     {
         $data = [1, true, false, null, 'Hello World'];
-        /** @var ImmutableHashSet<int|bool|null|string> $set */
+        /** @var ImmutableSet<int|bool|null|string> $set */
         $set = new ImmutableHashSet([]);
 
         self::assertTrue($set->isEmpty());
@@ -55,7 +56,7 @@ final class ImmutableUnorderedSetTest extends TestCase
     public function withMany(): void
     {
         $data = [1, true, false, null, 'Hello World'];
-        /** @var ImmutableHashSet<int|bool|null|string> $set */
+        /** @var ImmutableSet<int|bool|null|string> $set */
         $set = new ImmutableHashSet([]);
 
         $newSet = $set->withMany(...$data);
@@ -75,7 +76,7 @@ final class ImmutableUnorderedSetTest extends TestCase
     {
         $obj = new stdClass();
         $data = [1, true, false, null, 'Hello World', $obj];
-        /** @var ImmutableHashSet<int|bool|null|string|object> $set */
+        /** @var ImmutableSet<int|bool|null|string|object> $set */
         $set = new ImmutableHashSet($data);
 
         $newSet = $set->withRemoved(1);
