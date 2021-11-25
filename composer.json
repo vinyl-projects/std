@@ -13,7 +13,7 @@
   },
   "autoload": {
     "psr-4": {
-      "vinyl\\std\\": "src\\main"
+      "vinyl\\std\\": "src/main"
     },
     "files": [
       "functions.php"
@@ -21,7 +21,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "vinyl\\stdTest\\": "src\\test"
+      "vinyl\\stdTest\\": "src/test"
     }
   }
 }
