@@ -13,8 +13,6 @@ interface Identifiable
 {
     /**
      * Returns identity of object
-     *
-     * @return int|string
      */
-    public function identity();
+    public function identity(): string;
 }

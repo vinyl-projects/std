@@ -8,6 +8,7 @@ use Error;
 use InvalidArgumentException;
 use ReflectionClass;
 use ReflectionException;
+use Stringable;
 use Throwable;
 use vinyl\std\lang\collections\ArrayVector;
 use vinyl\std\lang\collections\Identifiable;
@@ -22,7 +23,7 @@ use function vinyl\std\lang\collections\vectorFromArray;
 /**
  * Class ClassObject
  */
-final class ClassObject implements Identifiable
+final class ClassObject implements Identifiable, Stringable
 {
     /** @var class-string */
     private string $className;
@@ -155,7 +156,15 @@ final class ClassObject implements Identifiable
     /**
      * @inheritDoc
      */
-    public function identity()
+    public function identity(): string
+    {
+        return $this->className;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function __toString(): string
     {
         return $this->className;
     }

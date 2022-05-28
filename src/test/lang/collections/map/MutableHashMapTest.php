@@ -98,7 +98,7 @@ class MutableHashMapTest extends TestCase
     public function remove(): void
     {
         $identifiable = new class implements Identifiable {
-            public function identity()
+            public function identity(): string
             {
                 return 'identity';
             }

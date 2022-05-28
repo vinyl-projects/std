@@ -24,7 +24,7 @@ final class UnorderedSetTest extends TestCase
     {
         $identifiableClass = new class implements Identifiable {
 
-            public function identity()
+            public function identity(): string
             {
                 return 'identifiableClass';
             }
@@ -47,7 +47,7 @@ final class UnorderedSetTest extends TestCase
     {
         $identifiableClass = new class implements Identifiable {
 
-            public function identity()
+            public function identity(): string
             {
                 return 'identifiableClass';
             }

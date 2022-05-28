@@ -99,20 +99,20 @@ abstract class ReadonlyVectorTest extends TestCase
         $obj = new stdClass();
 
         $idn1 = new class implements Identifiable {
-            public function identity()
+            public function identity(): string
             {
-                return 1;
+                return '1';
             }
         };
 
         $idn3 = new class implements Identifiable {
-            public function identity()
+            public function identity(): string
             {
                 return 'test';
             }
         };
 
-        $data = [1, 2.0, true, null, 'hello', $obj, $arr, $idn1,];
+        $data = ['1', 2.0, true, null, 'hello', $obj, $arr, $idn1,];
         /** @var Vector<mixed> $list */
         $list = static::createList(...$data);
 

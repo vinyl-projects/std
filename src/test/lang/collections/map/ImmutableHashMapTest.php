@@ -28,7 +28,7 @@ class ImmutableHashMapTest extends TestCase
         $immutableMap = immutableMapOf();
         $object = new stdClass();
         $identifiable = new class implements Identifiable {
-            public function identity()
+            public function identity(): string
             {
                 return 'identifiable object';
             }
@@ -72,7 +72,7 @@ class ImmutableHashMapTest extends TestCase
     public function withAll(): void
     {
         $identifiable = new class implements Identifiable {
-            public function identity()
+            public function identity(): string
             {
                 return 'identity';
             }
@@ -104,7 +104,7 @@ class ImmutableHashMapTest extends TestCase
     public function withRemoved(): void
     {
         $identifiable = new class implements Identifiable {
-            public function identity()
+            public function identity(): string
             {
                 return 'identity';
             }

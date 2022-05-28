@@ -24,7 +24,7 @@ final class HashMapTest extends TestCase
     public function iteration(): void
     {
         $identifiable = new class implements Identifiable {
-            public function identity()
+            public function identity(): string
             {
                 return 'identity';
             }
@@ -103,7 +103,7 @@ final class HashMapTest extends TestCase
     public function countTest(): void
     {
         $identifiable = new class implements Identifiable {
-            public function identity()
+            public function identity(): string
             {
                 return 'identity';
             }
@@ -139,7 +139,7 @@ final class HashMapTest extends TestCase
     public function containKey(): void
     {
         $identifiable = new class implements Identifiable {
-            public function identity()
+            public function identity(): string
             {
                 return 'identity';
             }
@@ -169,7 +169,7 @@ final class HashMapTest extends TestCase
     public function containsValue(): void
     {
         $identifiable = new class implements Identifiable {
-            public function identity()
+            public function identity(): string
             {
                 return 'identity';
             }
@@ -197,7 +197,7 @@ final class HashMapTest extends TestCase
     public function get(): void
     {
         $identifiable = new class implements Identifiable {
-            public function identity()
+            public function identity(): string
             {
                 return 'identity';
             }
@@ -226,7 +226,7 @@ final class HashMapTest extends TestCase
     public function find(): void
     {
         $identifiable = new class implements Identifiable {
-            public function identity()
+            public function identity(): string
             {
                 return 'identity';
             }
@@ -271,7 +271,7 @@ final class HashMapTest extends TestCase
         return [
             [new stdClass()],
             [new class implements Identifiable {
-                public function identity()
+                public function identity(): string
                 {
                     return '42';
                 }
@@ -288,7 +288,7 @@ final class HashMapTest extends TestCase
     public function toValueVector(): void
     {
         $identifiable = new class implements Identifiable {
-            public function identity()
+            public function identity(): string
             {
                 return 'identity';
             }
@@ -319,7 +319,7 @@ final class HashMapTest extends TestCase
     public function toKeySet(): void
     {
         $identifiable = new class implements Identifiable {
-            public function identity()
+            public function identity(): string
             {
                 return 'identity';
             }
