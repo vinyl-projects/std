@@ -6,6 +6,7 @@ namespace vinyl\stdTest\lang\collections\vector;
 
 use vinyl\std\lang\collections\MutableArrayVector;
 use vinyl\std\lang\collections\MutableVector;
+use function array_values;
 
 /**
  * Class MutableArrayVectorTest
@@ -19,6 +20,6 @@ class MutableArrayVectorTest extends MutableVectorTest
      */
     protected static function createList(...$elements): MutableVector
     {
-        return new MutableArrayVector($elements);
+        return new MutableArrayVector(array_values($elements));
     }
 }

@@ -13,6 +13,8 @@ use function array_values;
  */
 function vectorOf(...$elements): Vector
 {
+    /** @var list<T> $elements */
+    $elements = $elements['elements'] ?? $elements;
     return new ArrayVector($elements);
 }
 
@@ -34,6 +36,9 @@ function vectorFromArray(array $elements): Vector
  */
 function mutableVectorOf(...$elements): MutableVector
 {
+    $elements = $elements['elements'] ?? $elements;
+
+    /** @var list<T> $elements */
     return new MutableArrayVector($elements);
 }
 
@@ -54,6 +59,9 @@ function mutableVectorFromArray(array $elements): MutableVector
  */
 function immutableVectorOf(...$elements): ImmutableVector
 {
+    $elements = $elements['elements'] ?? $elements;
+
+    /** @var list<T> $elements */
     return new ImmutableArrayVector($elements);
 }
 
@@ -81,7 +89,6 @@ function pair($key, $value): MapPair
     return new MapPair($key, $value);
 }
 
-
 /**
  * @template TKey of string|int|null|bool|object
  * @template TValue
@@ -92,9 +99,11 @@ function pair($key, $value): MapPair
  */
 function mapOf(...$pairs): Map
 {
+    $pairs = $pairs['pairs'] ?? $pairs;
+
+    /** @var list<\vinyl\std\lang\collections\MapPair<TKey, TValue>> $pairs */
     return new HashMap($pairs);
 }
-
 
 /**
  * @template TKey of string|int|null|bool|object
@@ -106,9 +115,11 @@ function mapOf(...$pairs): Map
  */
 function mutableMapOf(...$pairs): MutableMap
 {
+    $pairs = $pairs['pairs'] ?? $pairs;
+
+    /** @var list<\vinyl\std\lang\collections\MapPair<TKey, TValue>> $pairs */
     return new MutableHashMap($pairs);
 }
-
 
 /**
  * @template TKey of string|int|null|bool|object
@@ -120,5 +131,8 @@ function mutableMapOf(...$pairs): MutableMap
  */
 function immutableMapOf(...$pairs): ImmutableMap
 {
+    $pairs = $pairs['pairs'] ?? $pairs;
+
+    /** @var list<\vinyl\std\lang\collections\MapPair<TKey, TValue>> $pairs */
     return new ImmutableHashMap($pairs);
 }

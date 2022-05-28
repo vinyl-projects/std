@@ -6,6 +6,7 @@ namespace vinyl\std\lang\collections;
 
 use Countable;
 use IteratorAggregate;
+use Traversable;
 
 /**
  * Interface Collection
@@ -38,5 +39,5 @@ interface Collection extends IteratorAggregate, Countable
     /**
      * @return \Traversable<TKey, TValue>
      */
-    public function getIterator();
+    public function getIterator(): Traversable;
 }

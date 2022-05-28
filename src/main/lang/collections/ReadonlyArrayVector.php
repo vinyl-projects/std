@@ -6,6 +6,7 @@ namespace vinyl\std\lang\collections;
 
 use ArrayIterator;
 use OutOfBoundsException;
+use Traversable;
 use function array_key_exists;
 use function count;
 use function in_array;
@@ -43,7 +44,7 @@ abstract class ReadonlyArrayVector implements Vector
     /**
      * @return ArrayIterator<int, T>
      */
-    public function getIterator()
+    public function getIterator(): Traversable
     {
         return new ArrayIterator($this->elements);
     }

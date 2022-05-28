@@ -226,7 +226,7 @@ abstract class ReadonlyMap implements Map
         return new HashSet($keys);
     }
 
-    public function getIterator()
+    public function getIterator(): Traversable
     {
         return new ReadonlyMapIterator($this->pairArrayMap, $this->list);
     }

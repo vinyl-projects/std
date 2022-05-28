@@ -102,7 +102,7 @@ abstract class ReadonlySet implements Set
     /**
      * @return ArrayIterator<int, T>
      */
-    public function getIterator()
+    public function getIterator(): \Traversable
     {
         $arrayValues = array_values($this->elements);
 

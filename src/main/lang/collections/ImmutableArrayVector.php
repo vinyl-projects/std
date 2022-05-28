@@ -37,6 +37,8 @@ final class ImmutableArrayVector extends ReadonlyArrayVector implements Immutabl
     public function withMany(...$elements): self
     {
         $newList = clone $this;
+        $elements = $elements['elements'] ?? $elements;
+        /** @var list<T> $elements */
         array_push($newList->elements, ...$elements);
 
         return $newList;

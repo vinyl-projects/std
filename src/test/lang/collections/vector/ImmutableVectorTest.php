@@ -52,7 +52,10 @@ abstract class ImmutableVectorTest extends ReadonlyVectorTest
      */
     public function addAllWithCustomCollection(): void
     {
-        /** @var Collection<int, int> $customCollection */
+        /**
+         * @var Collection<int, int> $customCollection
+         * @psalm-suppress MissingTemplateParam
+         */
         $customCollection = new class implements Collection {
             public function isEmpty(): bool
             {
@@ -69,12 +72,12 @@ abstract class ImmutableVectorTest extends ReadonlyVectorTest
                 throw new \RuntimeException('Not implemented.');
             }
 
-            public function getIterator()
+            public function getIterator(): \Traversable
             {
                 return new ArrayIterator([1, 2, 3]);
             }
 
-            public function count()
+            public function count(): int
             {
                 throw new \RuntimeException('Not implemented.');
             }

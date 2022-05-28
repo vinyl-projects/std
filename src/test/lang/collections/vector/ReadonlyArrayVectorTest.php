@@ -6,6 +6,7 @@ namespace vinyl\stdTest\lang\collections\vector;
 
 use vinyl\std\lang\collections\ArrayVector;
 use vinyl\std\lang\collections\Vector;
+use function array_values;
 
 /**
  * Class ReadonlyArrayVectorTest
@@ -19,6 +20,6 @@ final class ReadonlyArrayVectorTest extends ReadonlyVectorTest
      */
     protected static function createList(...$elements): Vector
     {
-        return new ArrayVector($elements);
+        return new ArrayVector(array_values($elements));
     }
 }

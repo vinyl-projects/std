@@ -78,8 +78,8 @@ class ImmutableHashMapTest extends TestCase
             }
         };
         $stdClass = new stdClass();
-        /** @var \vinyl\std\lang\collections\Map<string|int|null|bool|object, mixed> $map */
-        $map = mapOf(
+        /** @var list<\vinyl\std\lang\collections\MapPair<string|int|null|bool|object, mixed>> $pairs */
+        $pairs = [
             pair($stdClass, 1),
             pair('b', 2),
             pair(true, 3),
@@ -87,7 +87,9 @@ class ImmutableHashMapTest extends TestCase
             pair(null, 5),
             pair($identifiable, 6),
             pair(42, 7),
-        );
+        ];
+        /** @var \vinyl\std\lang\collections\Map<string|int|null|bool|object, mixed> $map */
+        $map = new HashMap($pairs);
 
         /** @var \vinyl\std\lang\collections\ImmutableMap<string|int|null|bool|object, mixed> $immutableMap */
         $immutableMap = immutableMapOf();
@@ -110,8 +112,8 @@ class ImmutableHashMapTest extends TestCase
             }
         };
         $stdClass = new stdClass();
-        /** @var \vinyl\std\lang\collections\ImmutableMap<string|int|null|bool|object, mixed> $map */
-        $map = immutableMapOf(
+        /** @var list<\vinyl\std\lang\collections\MapPair<string|int|null|bool|object, int>> $pairs */
+        $pairs = [
             pair($stdClass, 1),
             pair('b', 2),
             pair(true, 3),
@@ -119,6 +121,10 @@ class ImmutableHashMapTest extends TestCase
             pair(null, 5),
             pair($identifiable, 6),
             pair(42, 7),
+        ];
+        /** @var \vinyl\std\lang\collections\ImmutableMap<string|int|null|bool|object, mixed> $map */
+        $map = new ImmutableHashMap(
+            $pairs
         );
 
         $newMap = $map

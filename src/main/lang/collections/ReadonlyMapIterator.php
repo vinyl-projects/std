@@ -15,12 +15,6 @@ use Iterator;
  */
 final class ReadonlyMapIterator implements Iterator
 {
-    /** @var array<int|string, MapPair<TKey, TValue>> */
-    private $pairArrayMap = [];
-
-    /** @var array<MapPair<TKey, TValue>> */
-    private $list = [];
-
     /**
      * ReadonlyMapIterator constructor.
      *
@@ -29,16 +23,14 @@ final class ReadonlyMapIterator implements Iterator
      *
      * @internal
      */
-    public function __construct($pairArrayMap, $list)
+    public function __construct(private array $pairArrayMap, private array $list)
     {
-        $this->pairArrayMap = $pairArrayMap;
-        $this->list = $list;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function current()
+    public function current(): mixed
     {
         $current = current($this->pairArrayMap);
         if ($current !== false) {
@@ -51,7 +43,7 @@ final class ReadonlyMapIterator implements Iterator
     /**
      * {@inheritDoc}
      */
-    public function next()
+    public function next(): void
     {
         if (current($this->pairArrayMap) !== false) {
             next($this->pairArrayMap);
@@ -65,7 +57,7 @@ final class ReadonlyMapIterator implements Iterator
     /**
      * {@inheritDoc}
      */
-    public function key()
+    public function key(): mixed
     {
         $current = current($this->pairArrayMap);
         if ($current !== false) {
@@ -78,7 +70,7 @@ final class ReadonlyMapIterator implements Iterator
     /**
      * {@inheritDoc}
      */
-    public function valid()
+    public function valid(): bool
     {
         $isValid = current($this->pairArrayMap) !== false;
 
@@ -92,7 +84,7 @@ final class ReadonlyMapIterator implements Iterator
     /**
      * {@inheritDoc}
      */
-    public function rewind()
+    public function rewind(): void
     {
         reset($this->pairArrayMap);
         reset($this->list);

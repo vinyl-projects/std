@@ -6,6 +6,7 @@ namespace vinyl\stdTest\lang\collections\map;
 
 use PHPUnit\Framework\TestCase;
 use vinyl\std\lang\collections\Identifiable;
+use vinyl\std\lang\collections\MutableHashMap;
 use function vinyl\std\lang\collections\mutableMapOf;
 use function vinyl\std\lang\collections\pair;
 
@@ -104,23 +105,35 @@ class MutableHashMapTest extends TestCase
             }
         };
         $objectKey = new \stdClass();
-        /** @var \vinyl\std\lang\collections\MutableMap<string|int|null|bool|object, mixed> $map */
-        $map = mutableMapOf(
+        /** @var list<\vinyl\std\lang\collections\MapPair<string|int|null|bool|object, mixed>> $pairs */
+        $pairs = [
             pair($objectKey, 1),
             pair('b', 2),
             pair(true, 3),
             pair(false, 4),
             pair($identifiable, 6),
             pair(null, 5),
-        );
+            pair(1, '1'),
+            pair('1', '1s'),
+        ];
+        /** @var \vinyl\std\lang\collections\MutableMap<string|int|null|bool|object, mixed> $map */
+        $map = new MutableHashMap($pairs);
 
-        $map->remove($objectKey)->remove('b')->remove(true)->remove(false)->remove($identifiable)->remove(null);
+        $map->remove($objectKey)
+            ->remove('b')
+            ->remove(true)
+            ->remove(false)
+            ->remove($identifiable)
+            ->remove(null)
+            ->remove(1);
 
-        self::assertSame(null, $map->find($objectKey));
-        self::assertSame(null, $map->find('b'));
-        self::assertSame(null, $map->find(true));
-        self::assertSame(null, $map->find(false));
-        self::assertSame(null, $map->find($identifiable));
+        self::assertNull($map->find($objectKey));
+        self::assertNull($map->find('b'));
+        self::assertNull($map->find(true));
+        self::assertNull($map->find(false));
+        self::assertNull($map->find($identifiable));
+        self::assertNull($map->find(1));
+        self::assertNull($map->find('1'));
 
         $getNull = false;
         try {

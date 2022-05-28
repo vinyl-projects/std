@@ -32,6 +32,8 @@ final class MutableArrayVector extends ReadonlyArrayVector implements MutableVec
      */
     public function addMany(...$elements): void
     {
+        /** @var list<T> $elements */
+        $elements = $elements['elements'] ?? $elements;
         array_push($this->elements, ...$elements);
     }
 
