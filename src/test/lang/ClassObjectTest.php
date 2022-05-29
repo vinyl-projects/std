@@ -63,6 +63,7 @@ final class ClassObjectTest extends TestCase
 
     /**
      * @test
+     * @runInSeparateProcess
      */
     public function expectedExceptionIsThrownIfAutoloaderThrowsAnException(): void
     {
@@ -113,6 +114,7 @@ final class ClassObjectTest extends TestCase
 
     /**
      * @test
+     * @runInSeparateProcess
      */
     public function tryCreateReturnsNullIfAutoloaderThrowsException(): void
     {
@@ -171,7 +173,7 @@ final class ClassObjectTest extends TestCase
         };
         $classObject = ClassObject::create(get_class($class));
 
-        $expectedInterfaces = ['Stringable', 'Throwable'];
+        $expectedInterfaces = ['Throwable', 'Stringable'];
         $actualInterfaces = $classObject->toInterfaceNameVector()->toArray();
 
         self::assertSame($expectedInterfaces, $actualInterfaces);
