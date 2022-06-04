@@ -7,7 +7,7 @@ namespace vinyl\std\lang\collections;
 /**
  * Interface MutableMap
  *
- * @template TKey of string|int|null|bool|object
+ * @template TKey of string|int|object
  * @template TValue
  * @extends Map<TKey, TValue>
  */

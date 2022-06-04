@@ -202,7 +202,7 @@ abstract class ReadonlySet implements Set
     {
         if (is_object($element)) {
             /** @var object $element */
-            $key = $element instanceof Identifiable ? $element->identity() : spl_object_id($element);
+            $key = self::resolveKey($element);
             $object->elements[$key] = $element;
 
             return;

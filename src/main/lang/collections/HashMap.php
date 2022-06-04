@@ -9,7 +9,7 @@ namespace vinyl\std\lang\collections;
  *
  * Unordered {@see \vinyl\std\lang\collections\Map} implementation
  *
- * @template TKey of string|int|null|bool|object
+ * @template TKey of string|int|object
  * @template TValue
  * @extends ReadonlyMap<TKey, TValue>
  */

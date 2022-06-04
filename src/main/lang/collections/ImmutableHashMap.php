@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace vinyl\std\lang\collections;
 
+use function is_int;
+
 /**
  * Class ImmutableHashMap
  *
  * Immutable unordered hash map implementation
  *
- * @template TKey of string|int|null|bool|object
+ * @template TKey of string|int|object
  * @template TValue
  * @extends ReadonlyMap<TKey, TValue>
  * @implements ImmutableMap<TKey, TValue>
@@ -60,15 +62,6 @@ final class ImmutableHashMap extends ReadonlyMap implements ImmutableMap
             return $map;
         }
 
-        assert($key === null || is_bool($key));
-
-        foreach ($map->list as $index => $value) {
-            if ($value->key === $key) {
-                array_splice($map->list, $index, 1);
-                break;
-            }
-        }
-
         return $map;
     }
 
@@ -92,21 +85,6 @@ final class ImmutableHashMap extends ReadonlyMap implements ImmutableMap
         if (is_object($key)) {
             $resolvedKey = self::resolveKey($key);
             $this->pairArrayMap[$resolvedKey] = $mapPair;
-
-            return;
         }
-
-        assert($key === null || is_bool($key));
-
-        foreach ($this->list as $index => $item) {
-            if ($item->key === $key) {
-                array_splice($this->list, $index, 1);
-                $this->list[] = $mapPair;
-
-                return;
-            }
-        }
-
-        $this->list[] = $mapPair;
     }
 }

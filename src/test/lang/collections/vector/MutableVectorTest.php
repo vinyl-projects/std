@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace vinyl\stdTest\lang\collections\vector;
 
-use ArrayIterator;
-use vinyl\std\lang\collections\Collection;
 use vinyl\std\lang\collections\MutableVector;
 use function iterator_to_array;
 use function vinyl\std\lang\collections\immutableVectorOf;
-use function vinyl\std\lang\collections\vectorOf;
 
 /**
  * Class MutableVectorTest

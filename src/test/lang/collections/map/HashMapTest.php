@@ -31,13 +31,10 @@ final class HashMapTest extends TestCase
             }
         };
         $stdClass = new stdClass();
-        /** @var list<\vinyl\std\lang\collections\MapPair<int|string|bool|null|object, int>> $pairs */
+        /** @var list<\vinyl\std\lang\collections\MapPair<int|string|object, int>> $pairs */
         $pairs = [
             pair($stdClass, 1),
             pair('b', 2),
-            pair(true, 3),
-            pair(false, 4),
-            pair(null, 5),
             pair($identifiable, 6),
         ];
         $map = new HashMap($pairs);
@@ -52,16 +49,10 @@ final class HashMapTest extends TestCase
 
         self::assertContains($stdClass, $keys);
         self::assertContains('b', $keys);
-        self::assertContains(true, $keys);
-        self::assertContains(false, $keys);
-        self::assertContains(null, $keys);
         self::assertContains($identifiable, $keys);
 
         self::assertContains(1, $values);
         self::assertContains(2, $values);
-        self::assertContains(3, $values);
-        self::assertContains(4, $values);
-        self::assertContains(5, $values);
         self::assertContains(6, $values);
     }
 
@@ -113,18 +104,15 @@ final class HashMapTest extends TestCase
             }
         };
         $stdClass = new stdClass();
-        /** @var list<\vinyl\std\lang\collections\MapPair<int|string|bool|null|object, int>> $pairs */
+        /** @var list<\vinyl\std\lang\collections\MapPair<int|string|object, int>> $pairs */
         $pairs = [
             pair($stdClass, null),
             pair($identifiable, null),
             pair('a', null),
-            pair(true, null),
-            pair(false, null),
-            pair(null, null),
         ];
         $map = new HashMap($pairs);
 
-        self::assertEquals(6, $map->count());
+        self::assertEquals(3, $map->count());
     }
 
     /**
@@ -134,9 +122,6 @@ final class HashMapTest extends TestCase
     {
         $map = mapOf();
         self::assertTrue($map->isEmpty());
-
-        $map = mapOf(pair(null, null));
-        self::assertFalse($map->isEmpty());
     }
 
     /**
@@ -151,23 +136,18 @@ final class HashMapTest extends TestCase
             }
         };
         $std = new stdClass();
-        /** @var list<\vinyl\std\lang\collections\MapPair<int|string|bool|null|object, int>> $pairs */
+        /** @var list<\vinyl\std\lang\collections\MapPair<int|string|object, int>> $pairs */
         $pairs = [
             pair(42, 42),
             pair('test', 'test'),
             pair($std, 42),
-            pair($identifiable, 42),
-            pair(false, null),
-            pair(null, null),
+            pair($identifiable, 42)
         ];
         $map = new HashMap($pairs);
         self::assertTrue($map->containsKey(42));
         self::assertTrue($map->containsKey('test'));
         self::assertTrue($map->containsKey($std));
         self::assertTrue($map->containsKey($identifiable));
-        self::assertTrue($map->containsKey(false));
-        self::assertTrue($map->containsKey(null));
-        self::assertFalse($map->containsKey(true));
     }
 
     /**
@@ -181,13 +161,10 @@ final class HashMapTest extends TestCase
                 return 'identity';
             }
         };
-        /** @var list<\vinyl\std\lang\collections\MapPair<int|string|bool|null|object, int>> $pairs */
+        /** @var list<\vinyl\std\lang\collections\MapPair<int|string|object, int>> $pairs */
         $pairs = [
             pair(42, 1),
             pair($identifiable, 2),
-            pair(true, 4),
-            pair(false, 5),
-            pair(null, 6),
             pair('string', 7),
         ];
 
@@ -195,9 +172,6 @@ final class HashMapTest extends TestCase
 
         self::assertTrue($map->containsValue(1));
         self::assertTrue($map->containsValue(2));
-        self::assertTrue($map->containsValue(4));
-        self::assertTrue($map->containsValue(5));
-        self::assertTrue($map->containsValue(6));
         self::assertTrue($map->containsValue(7));
         self::assertFalse($map->containsValue(42));
     }
@@ -214,22 +188,16 @@ final class HashMapTest extends TestCase
             }
         };
         $stdClass = new stdClass();
-        /** @var list<\vinyl\std\lang\collections\MapPair<int|string|bool|null|object, int>> $pairs */
+        /** @var list<\vinyl\std\lang\collections\MapPair<int|string|object, int>> $pairs */
         $pairs = [
             pair($stdClass, 1),
             pair('b', 2),
-            pair(true, 3),
-            pair(false, 4),
-            pair(null, 5),
             pair($identifiable, 6),
         ];
         $map = new HashMap($pairs);
 
         self::assertSame(1, $map->get($stdClass));
         self::assertSame(2, $map->get('b'));
-        self::assertSame(3, $map->get(true));
-        self::assertSame(4, $map->get(false));
-        self::assertSame(5, $map->get(null));
         self::assertSame(6, $map->get($identifiable));
     }
 
@@ -245,12 +213,10 @@ final class HashMapTest extends TestCase
             }
         };
         $stdClass = new stdClass();
-        /** @var list<\vinyl\std\lang\collections\MapPair<int|string|bool|null|object, int>> $pairs */
+        /** @var list<\vinyl\std\lang\collections\MapPair<int|string|object, int>> $pairs */
         $pairs = [
             pair($stdClass, 1),
             pair('b', 2),
-            pair(false, 4),
-            pair(null, 5),
             pair($identifiable, 6),
         ];
 
@@ -258,11 +224,8 @@ final class HashMapTest extends TestCase
 
         self::assertSame(1, $map->find($stdClass));
         self::assertSame(2, $map->find('b'));
-        self::assertSame(4, $map->find(false));
-        self::assertSame(5, $map->find(null));
         self::assertSame(6, $map->find($identifiable));
 
-        self::assertNull($map->find(true));
         self::assertNull($map->find('key_not_exists'));
         self::assertNull($map->find(new stdClass()));
     }
@@ -271,10 +234,10 @@ final class HashMapTest extends TestCase
      * @test
      * @dataProvider getThrowsExceptionDataProvider
      */
-    public function getThrowsException(object|bool|int|string|null $valueToGet): void
+    public function getThrowsException(object|int|string $valueToGet): void
     {
         $this->expectException(OutOfBoundsException::class);
-        /** @var \vinyl\std\lang\collections\Map<string|int|null|bool|object, int> $map */
+        /** @var \vinyl\std\lang\collections\Map<string|int|object, int> $map */
         $map = mapOf();
         $map->get($valueToGet);
     }
@@ -289,7 +252,6 @@ final class HashMapTest extends TestCase
                     return '42';
                 }
             }],
-            [true],
             ['string key'],
             ['int key']
         ];
@@ -307,13 +269,10 @@ final class HashMapTest extends TestCase
             }
         };
         $stdClass = new stdClass();
-        /** @var list<\vinyl\std\lang\collections\MapPair<int|string|bool|null|object, int>> $pairs */
+        /** @var list<\vinyl\std\lang\collections\MapPair<int|string|object, int>> $pairs */
         $pairs = [
             pair($stdClass, 1),
             pair('b', 2),
-            pair(true, 3),
-            pair(false, 4),
-            pair(null, 5),
             pair($identifiable, 6),
         ];
         $map = new HashMap($pairs);
@@ -322,9 +281,6 @@ final class HashMapTest extends TestCase
 
         self::assertTrue($vector->contains(1));
         self::assertTrue($vector->contains(2));
-        self::assertTrue($vector->contains(3));
-        self::assertTrue($vector->contains(4));
-        self::assertTrue($vector->contains(5));
         self::assertTrue($vector->contains(6));
     }
 
@@ -340,13 +296,10 @@ final class HashMapTest extends TestCase
             }
         };
         $stdClass = new stdClass();
-        /** @var list<\vinyl\std\lang\collections\MapPair<int|string|bool|null|object, int>> $pairs */
+        /** @var list<\vinyl\std\lang\collections\MapPair<int|string|object, int>> $pairs */
         $pairs = [
             pair($stdClass, 1),
             pair('b', 2),
-            pair(true, 3),
-            pair(false, 4),
-            pair(null, 5),
             pair($identifiable, 6),
             pair(42, 7),
         ];
@@ -356,9 +309,6 @@ final class HashMapTest extends TestCase
 
         self::assertTrue($keySet->contains($stdClass));
         self::assertTrue($keySet->contains('b'));
-        self::assertTrue($keySet->contains(true));
-        self::assertTrue($keySet->contains(false));
-        self::assertTrue($keySet->contains(null));
         self::assertTrue($keySet->contains($identifiable));
         self::assertTrue($keySet->contains(42));
     }
@@ -370,17 +320,14 @@ final class HashMapTest extends TestCase
     {
         $key = new stdClass();
         $value = new stdClass();
-        /** @var list<\vinyl\std\lang\collections\MapPair<int|string|bool|null|object, int>> $pairs */
+        /** @var list<\vinyl\std\lang\collections\MapPair<int|string|object, int>> $pairs */
         $pairs = [
             pair(1, 1),
             pair('b', 2),
-            pair(true, 3),
-            pair(false, 4),
-            pair(null, 5),
             pair($key, $value)
         ];
 
-        /** @var \vinyl\std\lang\collections\Map<int|string|bool|null|object, int> $map */
+        /** @var \vinyl\std\lang\collections\Map<int|string|object, int> $map */
         $map = new HashMap($pairs);
 
         $newMap = clone $map;
@@ -391,9 +338,6 @@ final class HashMapTest extends TestCase
 
         self::assertSame(1, $newMap->get(1));
         self::assertSame(2, $newMap->get('b'));
-        self::assertSame(3, $newMap->get(true));
-        self::assertSame(4, $newMap->get(false));
-        self::assertSame(5, $newMap->get(null));
         self::assertSame($value, $newMap->get($key));
     }
 }

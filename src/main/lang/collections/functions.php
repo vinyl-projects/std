@@ -76,7 +76,7 @@ function immutableVectorFromArray(array $elements): ImmutableVector
 }
 
 /**
- * @template TKey of string|int|null|bool|object
+ * @template TKey of string|int|object
  * @template TValue
  *
  * @psalm-param TKey $key
@@ -90,7 +90,7 @@ function pair($key, $value): MapPair
 }
 
 /**
- * @template TKey of string|int|null|bool|object
+ * @template TKey of string|int|object
  * @template TValue
  *
  * @param \vinyl\std\lang\collections\MapPair<TKey, TValue> ...$pairs
@@ -106,7 +106,7 @@ function mapOf(...$pairs): Map
 }
 
 /**
- * @template TKey of string|int|null|bool|object
+ * @template TKey of string|int|object
  * @template TValue
  *
  * @param \vinyl\std\lang\collections\MapPair<TKey, TValue> ...$pairs
@@ -122,7 +122,7 @@ function mutableMapOf(...$pairs): MutableMap
 }
 
 /**
- * @template TKey of string|int|null|bool|object
+ * @template TKey of string|int|object
  * @template TValue
  *
  * @param \vinyl\std\lang\collections\MapPair<TKey, TValue> ...$pairs

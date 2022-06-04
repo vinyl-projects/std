@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace vinyl\std\lang\collections;
 
 use OutOfBoundsException;
+use Traversable;
 use function array_key_exists;
 use function count;
 use function is_int;
@@ -16,17 +17,14 @@ use function is_string;
  *
  * Unordered implementation of {@see Map}
  *
- * @template TKey of string|int|null|bool|object
+ * @template TKey of string|int|object
  * @template TValue
  * @implements Map<TKey, TValue>
  */
 abstract class ReadonlyMap implements Map
 {
     /** @var array<int|string, MapPair<TKey, TValue>> */
-    protected $pairArrayMap = [];
-
-    /** @var list<MapPair<TKey, TValue>> */
-    protected $list = [];
+    protected array $pairArrayMap = [];
 
     /**
      * UnorderedMap constructor.
@@ -44,28 +42,9 @@ abstract class ReadonlyMap implements Map
                 continue;
             }
 
-            if ($key === null) {
-                /** @var MapPair<TKey, TValue> $pair */
-                $this->list[] = $pair;
-                continue;
-            }
-
             if (is_object($key)) {
                 $key = self::resolveKey($key);
                 $this->pairArrayMap[$key] = $pair;
-                continue;
-            }
-
-            if ($key === true) {
-                /** @var MapPair<TKey, TValue> $pair */
-                $this->list[] = $pair;
-                continue;
-            }
-
-            if ($key === false) {
-                /** @var MapPair<TKey, TValue> $pair */
-                $this->list[] = $pair;
-                continue;
             }
         }
     }
@@ -75,7 +54,7 @@ abstract class ReadonlyMap implements Map
      */
     public function count(): int
     {
-        return count($this->pairArrayMap) + count($this->list);
+        return count($this->pairArrayMap);
     }
 
     /**
@@ -101,12 +80,6 @@ abstract class ReadonlyMap implements Map
 
         assert($key === null || is_bool($key));
 
-        foreach ($this->list as $item) {
-            if ($item->key === $key) {
-                return true;
-            }
-        }
-
         return false;
     }
 
@@ -115,14 +88,7 @@ abstract class ReadonlyMap implements Map
      */
     public function containsValue($element): bool
     {
-        /** @var MapPair<TKey, TValue> $pair */
         foreach ($this->pairArrayMap as $pair) {
-            if ($pair->value === $element) {
-                return true;
-            }
-        }
-
-        foreach ($this->list as $pair) {
             if ($pair->value === $element) {
                 return true;
             }
@@ -154,14 +120,6 @@ abstract class ReadonlyMap implements Map
             throw new OutOfBoundsException("Given key [{$debugKey}] is not present in the map.");
         }
 
-        assert($key === null || is_bool($key));
-
-        foreach ($this->list as $item) {
-            if ($item->key === $key) {
-                return $item->value;
-            }
-        }
-
         throw new OutOfBoundsException("Given key [{$key}] is not present in the map.");
     }
 
@@ -185,14 +143,6 @@ abstract class ReadonlyMap implements Map
             }
 
             return null;
-        }
-
-        assert($key === null || is_bool($key));
-
-        foreach ($this->list as $item) {
-            if ($item->key === $key) {
-                return $item->value;
-            }
         }
 
         return null;
@@ -228,13 +178,10 @@ abstract class ReadonlyMap implements Map
 
     public function getIterator(): Traversable
     {
-        return new ReadonlyMapIterator($this->pairArrayMap, $this->list);
+        return new ReadonlyMapIterator($this->pairArrayMap);
     }
 
-    /**
-     * @return int|string
-     */
-    final protected static function resolveKey(object $element)
+    final protected static function resolveKey(object $element): int|string
     {
         return $element instanceof Identifiable ? $element->identity() : spl_object_id($element);
     }
@@ -242,17 +189,11 @@ abstract class ReadonlyMap implements Map
     public function __clone()
     {
         $pairArrayMap = [];
-        $list = [];
 
         foreach ($this->pairArrayMap as $key => $pair) {
             $pairArrayMap[$key] = clone $pair;
         }
 
-        foreach ($this->list as $item) {
-            $list[] = clone $item;
-        }
-
         $this->pairArrayMap = $pairArrayMap;
-        $this->list = $list;
     }
 }

@@ -10,7 +10,7 @@ use IteratorAggregate;
 /**
  * Interface Map
  *
- * @template TKey of string|int|null|bool|object
+ * @template TKey of string|int|object
  * @template TValue
  * @extends IteratorAggregate<TKey, TValue>
  */

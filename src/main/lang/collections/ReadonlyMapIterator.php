@@ -9,7 +9,7 @@ use Iterator;
 /**
  * Class ReadonlyMapIterator
  *
- * @template TKey of string|int|null|bool|object
+ * @template TKey of string|int|object
  * @template TValue
  * @implements Iterator<TKey, TValue>
  */
@@ -19,11 +19,10 @@ final class ReadonlyMapIterator implements Iterator
      * ReadonlyMapIterator constructor.
      *
      * @param array<int|string, MapPair<TKey, TValue>> $pairArrayMap
-     * @param array<MapPair<TKey, TValue>>             $list
      *
      * @internal
      */
-    public function __construct(private array $pairArrayMap, private array $list)
+    public function __construct(private array $pairArrayMap)
     {
     }
 
@@ -37,7 +36,7 @@ final class ReadonlyMapIterator implements Iterator
             return $current->value;
         }
 
-        return current($this->list)->value;
+        return false;
     }
 
     /**
@@ -45,13 +44,11 @@ final class ReadonlyMapIterator implements Iterator
      */
     public function next(): void
     {
-        if (current($this->pairArrayMap) !== false) {
-            next($this->pairArrayMap);
-
+        if (current($this->pairArrayMap) === false) {
             return;
         }
 
-        next($this->list);
+        next($this->pairArrayMap);
     }
 
     /**
@@ -64,7 +61,7 @@ final class ReadonlyMapIterator implements Iterator
             return $current->key;
         }
 
-        return current($this->list)->key;
+        return false;
     }
 
     /**
@@ -72,13 +69,7 @@ final class ReadonlyMapIterator implements Iterator
      */
     public function valid(): bool
     {
-        $isValid = current($this->pairArrayMap) !== false;
-
-        if ($isValid) {
-            return true;
-        }
-
-        return current($this->list) !== false;
+        return current($this->pairArrayMap) !== false;
     }
 
     /**
@@ -87,6 +78,5 @@ final class ReadonlyMapIterator implements Iterator
     public function rewind(): void
     {
         reset($this->pairArrayMap);
-        reset($this->list);
     }
 }

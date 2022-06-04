@@ -16,7 +16,7 @@ use function is_string;
  *
  * Mutable unordered hash map implementation
  *
- * @template TKey of string|int|null|bool|object
+ * @template TKey of string|int|object
  * @template TValue
  * @extends ReadonlyMap<TKey, TValue>
  * @implements MutableMap<TKey, TValue>
@@ -29,7 +29,6 @@ final class MutableHashMap extends ReadonlyMap implements MutableMap
     public function clear(): self
     {
         $this->pairArrayMap = [];
-        $this->list = [];
 
         return $this;
     }
@@ -52,19 +51,6 @@ final class MutableHashMap extends ReadonlyMap implements MutableMap
 
             return $this;
         }
-
-        assert($key === null || is_bool($key));
-
-        foreach ($this->list as $index => $item) {
-            if ($item->key === $key) {
-                array_splice($this->list, $index, 1);
-                $this->list[] = $mapPair;
-
-                return $this;
-            }
-        }
-
-        $this->list[] = $mapPair;
 
         return $this;
     }
@@ -97,15 +83,6 @@ final class MutableHashMap extends ReadonlyMap implements MutableMap
             unset($this->pairArrayMap[$resolvedKey]);
 
             return $this;
-        }
-
-        assert($key === null || is_bool($key));
-
-        foreach ($this->list as $index => $value) {
-            if ($value->key === $key) {
-                array_splice($this->list, $index, 1);
-                break;
-            }
         }
 
         return $this;
