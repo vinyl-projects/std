@@ -9,8 +9,8 @@ namespace vinyl\std\lang\collections;
  *
  * Readonly vector interface
  *
- * @template T
- * @extends Collection<int, T>
+ * @template TValue
+ * @extends Collection<int, TValue>
  */
 interface Vector extends Collection
 {
@@ -24,16 +24,18 @@ interface Vector extends Collection
     public function has(int $index): bool;
 
     /**
+     * Returns the element at the specified index in the list.
+     *
      * @param int $index
      *
-     * @return T|null
+     * @return TValue|null
      */
     public function find(int $index);
 
     /**
      * Returns the element at the specified index in the list.
      *
-     * @return T
+     * @return TValue
      * @throws \OutOfBoundsException if the index is out of range (index < 0 || index >= size())
      */
     public function get(int $index);
@@ -43,7 +45,7 @@ interface Vector extends Collection
      *
      * @template R
      *
-     * @psalm-param callable(T):R $transform
+     * @psalm-param callable(TValue):R $transform
      *
      * @return static<R>
      */
@@ -52,7 +54,13 @@ interface Vector extends Collection
     /**
      * Returns array representation of current {@see \vinyl\std\lang\collections\Vector}
      *
-     * @psalm-return list<T>
+     * @psalm-return list<TValue>
      */
     public function toArray(): array;
+
+    /**
+     * @todo temp fix for phpstorm autocomplete
+     * @return \Traversable<TKey, TValue>
+     */
+    public function getIterator(): \Traversable;
 }

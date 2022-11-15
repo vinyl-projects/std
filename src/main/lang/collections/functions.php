@@ -136,3 +136,25 @@ function immutableMapOf(...$pairs): ImmutableMap
     /** @var list<\vinyl\std\lang\collections\MapPair<TKey, TValue>> $pairs */
     return new ImmutableHashMap($pairs);
 }
+
+/**
+ * @template T of string|object|bool|int|null
+ * @psalm-param array<array-key, T> $elements
+ *
+ * @return Set<T>
+ */
+function setFromArray(array $elements): Set
+{
+    return new HashSet($elements);
+}
+
+/**
+ * @template T of string|object|bool|int|null
+ * @psalm-param array<array-key, T> $elements
+ *
+ * @return Set<T>
+ */
+function mutableSetFromArray(array $elements = []): Set
+{
+    return new MutableHashSet($elements);
+}

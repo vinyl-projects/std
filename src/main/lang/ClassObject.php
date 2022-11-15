@@ -51,8 +51,8 @@ final class ClassObject implements Identifiable, Stringable
 
         self::throwIfClassNameStartsWithBackslash($className);
         try {
-            if (!class_exists($className)) {
-                throw new InvalidArgumentException("Class [{$className}] does not exists.");
+            if (class_exists($className)) {
+                return new self($className);
             }
         } catch (Throwable $e) {
             $code = $e->getCode();
@@ -60,7 +60,7 @@ final class ClassObject implements Identifiable, Stringable
             throw new InvalidArgumentException("Class [{$className}] does not exists.", $code, $e);
         }
 
-        return new self($className);
+        throw new InvalidArgumentException("Class [{$className}] does not exists.");
     }
 
     /**
