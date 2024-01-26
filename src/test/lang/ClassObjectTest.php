@@ -7,11 +7,11 @@ namespace vinyl\stdTest\lang;
 use Exception;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use ReflectionClass;
 use stdClass;
 use vinyl\std\lang\ClassObject;
 use function get_class;
 use function spl_autoload_register;
+use function spl_autoload_unregister;
 
 /**
  * Class ClassObjectTest
@@ -53,16 +53,6 @@ final class ClassObjectTest extends TestCase
 
     /**
      * @test
-     */
-    public function exceptionIsThrownIfClassNameContainsBackslash(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Class name could not be started from backslash.');
-        ClassObject::create('\\');
-    }
-
-    /**
-     * @test
      * @runInSeparateProcess
      */
     public function expectedExceptionIsThrownIfAutoloaderThrowsAnException(): void
@@ -90,7 +80,8 @@ final class ClassObjectTest extends TestCase
      */
     public function instantiateClassObjectFromObject(): void
     {
-        $object = new class {};
+        $object = new class {
+        };
         self::assertEquals(get_class($object), ClassObject::createFromObject($object)->name());
     }
 
@@ -99,9 +90,8 @@ final class ClassObjectTest extends TestCase
      */
     public function tryCreateThrowsExceptionIfGivenClassIsEmptyString(): void
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Class name could not be empty.');
-        ClassObject::tryCreate('');
+        $result = ClassObject::tryCreate('');
+        self::assertNull($result);
     }
 
     /**
@@ -118,10 +108,12 @@ final class ClassObjectTest extends TestCase
      */
     public function tryCreateReturnsNullIfAutoloaderThrowsException(): void
     {
-        spl_autoload_register(static function (): void {
+        $closure = static function (): void {
             throw new Exception('Test');
-        });
+        };
+        spl_autoload_register($closure);
         self::assertNull(ClassObject::tryCreate('vinyl\stdTest\ClassNotExists'));
+        spl_autoload_unregister($closure);
     }
 
     /**
@@ -129,7 +121,8 @@ final class ClassObjectTest extends TestCase
      */
     public function instantiateClassObjectThroughTryCreateMethod(): void
     {
-        $object = new class {};
+        $object = new class {
+        };
         self::assertNotNull(ClassObject::tryCreate(get_class($object)));
     }
 
@@ -162,33 +155,6 @@ final class ClassObjectTest extends TestCase
             ->toArray();
 
         self::assertEquals($expectedParents, $actualParents);
-    }
-
-    /**
-     * @test
-     */
-    public function toInterfaceNameVector(): void
-    {
-        $class = new class extends Exception {
-        };
-        $classObject = ClassObject::create(get_class($class));
-
-        $expectedInterfaces = ['Throwable', 'Stringable'];
-        $actualInterfaces = $classObject->toInterfaceNameVector()->toArray();
-
-        self::assertSame($expectedInterfaces, $actualInterfaces);
-    }
-
-    /**
-     * @test
-     */
-    public function toReflectionClass(): void
-    {
-        $class = new class {
-        };
-        $classObject = ClassObject::create(get_class($class));
-
-        self::assertInstanceOf(ReflectionClass::class, $classObject->toReflectionClass());
     }
 
     /**

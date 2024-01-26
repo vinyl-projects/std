@@ -4,30 +4,23 @@ declare(strict_types=1);
 
 namespace vinyl\std\lang;
 
-use Error;
 use InvalidArgumentException;
-use ReflectionClass;
-use ReflectionException;
-use Stringable;
 use Throwable;
 use vinyl\std\lang\collections\ArrayVector;
-use vinyl\std\lang\collections\Identifiable;
 use vinyl\std\lang\collections\Vector;
 use function assert;
 use function class_exists;
-use function class_implements;
 use function class_parents;
 use function is_int;
-use function vinyl\std\lang\collections\vectorFromArray;
+use function ltrim;
 
 /**
  * Class ClassObject
+ *
+ * @extends Entry<class-string>
  */
-final class ClassObject implements Identifiable, Stringable
+final class ClassObject extends Entry
 {
-    /** @var class-string */
-    private string $className;
-
     /**
      * ClassObject constructor.
      *
@@ -35,7 +28,7 @@ final class ClassObject implements Identifiable, Stringable
      */
     private function __construct(string $className)
     {
-        $this->className = $className;
+        $this->name = ltrim($className, '\\');
     }
 
     /**
@@ -49,7 +42,6 @@ final class ClassObject implements Identifiable, Stringable
             throw new InvalidArgumentException('Class name could not be empty.');
         }
 
-        self::throwIfClassNameStartsWithBackslash($className);
         try {
             if (class_exists($className)) {
                 return new self($className);
@@ -79,10 +71,8 @@ final class ClassObject implements Identifiable, Stringable
     public static function tryCreate(string $className): ?self
     {
         if ($className === '') {
-            throw new InvalidArgumentException('Class name could not be empty.');
+            return null;
         }
-
-        self::throwIfClassNameStartsWithBackslash($className);
 
         try {
             if (!class_exists($className)) {
@@ -95,14 +85,11 @@ final class ClassObject implements Identifiable, Stringable
         return new self($className);
     }
 
-    /**
-     * Returns class name
-     *
-     * @return class-string
-     */
-    public function name(): string
+    private static function throwIfClassNameStartsWithBackslash(string $className): void
     {
-        return $this->className;
+        if ($className[0] === '\\') {
+            throw new InvalidArgumentException('Class name could not be started from backslash.');
+        }
     }
 
     /**
@@ -113,59 +100,10 @@ final class ClassObject implements Identifiable, Stringable
     public function toParentClassObjectVector(): Vector
     {
         $parents = [];
-        foreach (class_parents($this->className) as $classParent) {
+        foreach (class_parents($this->name) as $classParent) {
             $parents[] = new self($classParent);
         }
 
         return new ArrayVector($parents);
-    }
-
-    /**
-     * Returns the interfaces which are implemented by current class
-     *
-     * @return \vinyl\std\lang\collections\Vector<string>
-     */
-    public function toInterfaceNameVector(): Vector
-    {
-        $interfaces = class_implements($this->className);
-
-        assert($interfaces !== false);
-
-        return vectorFromArray($interfaces);
-    }
-
-    /**
-     * Returns {@see ReflectionClass} object
-     */
-    public function toReflectionClass(): ReflectionClass
-    {
-        try {
-            return new ReflectionClass($this->className);
-        } catch (ReflectionException $e) {
-            throw new Error($e->getMessage(), 0, $e);
-        }
-    }
-
-    private static function throwIfClassNameStartsWithBackslash(string $className): void
-    {
-        if ($className[0] === '\\') {
-            throw new InvalidArgumentException('Class name could not be started from backslash.');
-        }
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function identity(): string
-    {
-        return $this->className;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function __toString(): string
-    {
-        return $this->className;
     }
 }
