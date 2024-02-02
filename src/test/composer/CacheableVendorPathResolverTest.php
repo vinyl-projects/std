@@ -7,6 +7,7 @@ namespace vinyl\stdTest\composer;
 use PHPUnit\Framework\TestCase;
 use vinyl\std\composer\CacheableVendorPathResolver;
 use vinyl\std\composer\VendorPathResolver;
+use vinyl\std\io\FileSystems;
 
 /**
  * Class CacheableVendorPathResolverTest
@@ -20,14 +21,16 @@ final class CacheableVendorPathResolverTest extends TestCase
      */
     public function resolve(): void
     {
+        $path = FileSystems::default()->path('hello/world');
         $mock = $this->createMock(VendorPathResolver::class);
         $mock->expects(self::once())
             ->method('resolve')
-            ->willReturn('hello/world');
+            ->willReturn($path);
 
         $resolver = new CacheableVendorPathResolver($mock);
 
-        self::assertSame('hello/world', $resolver->resolve());
-        self::assertSame('hello/world', $resolver->resolve());
+        self::assertSame($path->toString(), $resolver->resolve()->toString());
+        self::assertSame($path, $resolver->resolve());
+        self::assertSame($path, $resolver->resolve());
     }
 }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace vinyl\std\composer;
 
+use vinyl\std\io\Path;
+
 /**
  * Class CacheableVendorPathResolver
  */
@@ -11,7 +13,7 @@ final class CacheableVendorPathResolver implements VendorPathResolver
 {
     private VendorPathResolver $resolver;
 
-    private ?string $resolvedVendorPath = null;
+    private ?Path $resolvedVendorPath = null;
 
     /**
      * CacheableVendorPathResolver constructor.
@@ -24,7 +26,7 @@ final class CacheableVendorPathResolver implements VendorPathResolver
     /**
      * {@inheritDoc}
      */
-    public function resolve(): string
+    public function resolve(): Path
     {
         if ($this->resolvedVendorPath === null) {
             $this->resolvedVendorPath = $this->resolver->resolve();

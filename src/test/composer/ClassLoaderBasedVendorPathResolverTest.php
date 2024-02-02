@@ -6,6 +6,7 @@ namespace vinyl\stdTest\composer;
 
 use PHPUnit\Framework\TestCase;
 use vinyl\std\composer\ClassLoaderBasedVendorPathResolver;
+use vinyl\std\io\FileSystems;
 use function dirname;
 use const DIRECTORY_SEPARATOR;
 
@@ -22,8 +23,8 @@ final class ClassLoaderBasedVendorPathResolverTest extends TestCase
     public function resolve(): void
     {
         $resolver = new ClassLoaderBasedVendorPathResolver();
-        $vendorDir = dirname(__DIR__, 3) . DIRECTORY_SEPARATOR . 'vendor';
+        $vendorDir = FileSystems::default()->path(dirname(__DIR__, 3) . DIRECTORY_SEPARATOR . 'vendor');
 
-        self::assertSame($vendorDir, $resolver->resolve());
+        self::assertSame($vendorDir->toString(), $resolver->resolve()->toString());
     }
 }
