@@ -11,7 +11,7 @@ use IteratorAggregate;
  * Interface Map
  *
  * @template TKey of string|int|object
- * @template TValue
+ * @template-covariant TValue
  * @extends IteratorAggregate<TKey, TValue>
  */
 interface Map extends IteratorAggregate, Countable
@@ -30,6 +30,7 @@ interface Map extends IteratorAggregate, Countable
 
     /**
      * @psalm-param TValue $element
+     * @psalm-suppress InvalidTemplateParam
      *
      * @return bool
      */

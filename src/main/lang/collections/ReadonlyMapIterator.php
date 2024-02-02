@@ -10,7 +10,7 @@ use Iterator;
  * Class ReadonlyMapIterator
  *
  * @template TKey of string|int|object
- * @template TValue
+ * @template-covariant TValue
  * @implements Iterator<TKey, TValue>
  */
 final class ReadonlyMapIterator implements Iterator

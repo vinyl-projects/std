@@ -12,8 +12,15 @@ use vinyl\std\lang\collections\Vector;
 /**
  * Class ReadonlyVectorTest
  */
-abstract class ReadonlyVectorTest extends TestCase
+abstract class TestReadonlyVector extends TestCase
 {
+    /**
+     * @template T
+     * @psalm-param T ...$elements
+     * @return \vinyl\std\lang\collections\Vector<T>
+     */
+    abstract protected static function createList(...$elements): Vector;
+
     /**
      * @test
      */
@@ -67,16 +74,6 @@ abstract class ReadonlyVectorTest extends TestCase
     {
         $list = static::createList(1, 2, 3, 4);
         self::assertSame(4, $list->count());
-    }
-
-    /**
-     * @test
-     * @psalm-suppress RedundantConditionGivenDocblockType
-     */
-    public function listIsIterable(): void
-    {
-        $list = static::createList(1, 2, 3);
-        self::assertIsIterable($list);
     }
 
     /**
@@ -148,11 +145,4 @@ abstract class ReadonlyVectorTest extends TestCase
         self::assertSame([1, 4, 9], $transformedList->toArray());
         self::assertSame(get_class($list), get_class($transformedList));
     }
-
-    /**
-     * @template T
-     * @psalm-param T ...$elements
-     * @return \vinyl\std\lang\collections\Vector<T>
-     */
-    abstract protected static function createList(...$elements): Vector;
 }

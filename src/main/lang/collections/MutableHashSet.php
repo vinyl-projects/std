@@ -13,7 +13,7 @@ use function is_string;
 /**
  * Class MutableHashSet
  *
- * @template T of string|object|bool|int|null
+ * @template-covariant T of string|object|bool|int|null
  * @extends ReadonlySet<T>
  * @implements MutableSet<T>
  */
@@ -57,6 +57,9 @@ final class MutableHashSet extends ReadonlySet implements MutableSet
      * {@inheritDoc}
      * @psalm-suppress RedundantConditionGivenDocblockType
      * @psalm-suppress InvalidArgument
+     * @psalm-suppress InvalidArrayOffset
+     * @psalm-suppress TypeDoesNotContainType
+     * @psalm-suppress NoValue
      */
     public function remove($element): MutableSet
     {

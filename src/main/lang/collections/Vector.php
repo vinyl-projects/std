@@ -9,7 +9,7 @@ namespace vinyl\std\lang\collections;
  *
  * Readonly vector interface
  *
- * @template TValue
+ * @template-covariant TValue
  * @extends Collection<int, TValue>
  */
 interface Vector extends Collection
@@ -24,13 +24,20 @@ interface Vector extends Collection
     public function has(int $index): bool;
 
     /**
-     * Returns the element at the specified index in the list.
+     * Returns the element at the specified index in the vector.
      *
      * @param int $index
      *
      * @return TValue|null
      */
     public function find(int $index);
+
+    /**
+     * Returns the first element if found 'null' otherwise
+     *
+     * @return TValue|null
+     */
+    public function findFirst();
 
     /**
      * Returns the element at the specified index in the list.
@@ -46,6 +53,7 @@ interface Vector extends Collection
      * @template R
      *
      * @psalm-param callable(TValue):R $transform
+     * @psalm-suppress InvalidTemplateParam
      *
      * @return static<R>
      */
@@ -60,7 +68,7 @@ interface Vector extends Collection
 
     /**
      * @todo temp fix for phpstorm autocomplete
-     * @return \Traversable<TKey, TValue>
+     * @return \Traversable<int, TValue>
      */
     public function getIterator(): \Traversable;
 }

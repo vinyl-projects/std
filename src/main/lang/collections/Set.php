@@ -9,7 +9,7 @@ namespace vinyl\std\lang\collections;
  *
  * Collection that doesn't support duplicate elements.
  *
- * @template TValue of string|object|bool|int|null
+ * @template-covariant TValue of string|object|bool|int|null
  * @extends Collection<int, TValue>
  */
 interface Set extends Collection

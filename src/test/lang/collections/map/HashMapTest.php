@@ -20,6 +20,27 @@ use function vinyl\std\lang\collections\pair;
 final class HashMapTest extends TestCase
 {
     /**
+     * @psalm-suppress MixedInferredReturnType
+     * @return array<array-key, array<array-key, object|int|string>>
+     */
+    public static function getThrowsExceptionDataProvider()
+    {
+        return [
+            [new stdClass()],
+            [
+                new class implements Identifiable {
+                    public function identity(): string
+                    {
+                        return '42';
+                    }
+                }
+            ],
+            ['string key'],
+            ['int key']
+        ];
+    }
+
+    /**
      * @test
      */
     public function iteration(): void
@@ -220,6 +241,7 @@ final class HashMapTest extends TestCase
             pair($identifiable, 6),
         ];
 
+        /** @var HashMap<int|string|object, int> $map */
         $map = new HashMap($pairs);
 
         self::assertSame(1, $map->find($stdClass));
@@ -240,21 +262,6 @@ final class HashMapTest extends TestCase
         /** @var \vinyl\std\lang\collections\Map<string|int|object, int> $map */
         $map = mapOf();
         $map->get($valueToGet);
-    }
-
-    public function getThrowsExceptionDataProvider(): array
-    {
-        return [
-            [new stdClass()],
-            [new class implements Identifiable {
-                public function identity(): string
-                {
-                    return '42';
-                }
-            }],
-            ['string key'],
-            ['int key']
-        ];
     }
 
     /**

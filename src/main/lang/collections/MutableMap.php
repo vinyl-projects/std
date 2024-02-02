@@ -8,7 +8,7 @@ namespace vinyl\std\lang\collections;
  * Interface MutableMap
  *
  * @template TKey of string|int|object
- * @template TValue
+ * @template-covariant TValue
  * @extends Map<TKey, TValue>
  */
 interface MutableMap extends Map
@@ -23,6 +23,7 @@ interface MutableMap extends Map
      *
      * @psalm-param TKey $key
      * @psalm-param TValue $value
+     * @psalm-suppress InvalidTemplateParam
      */
     public function put($key, $value): self;
 

@@ -7,9 +7,7 @@ namespace vinyl\std\lang\collections;
 /**
  * Interface ImmutableVector
  *
- * @todo use 'with' prefix for methods? withAll, withMany, withReplaced, ...
- *
- * @template T
+ * @template-covariant T
  * @template-extends Vector<T>
  */
 interface ImmutableVector extends Vector
@@ -18,6 +16,7 @@ interface ImmutableVector extends Vector
      * Adds the specified element to the end of new list.
      *
      * @psalm-param T $element
+     * @psalm-suppress InvalidTemplateParam
      */
     public function with($element): self;
 
@@ -25,6 +24,7 @@ interface ImmutableVector extends Vector
      * Adds the specified elements to the end of new list.
      *
      * @psalm-param T $elements
+     * @psalm-suppress InvalidTemplateParam
      */
     public function withMany(...$elements): self;
 
@@ -39,6 +39,7 @@ interface ImmutableVector extends Vector
      * Replaces the element at the specified position in new list with the specified element.
      *
      * @psalm-param T $element
+     * @psalm-suppress InvalidTemplateParam
      *
      * @throws \OutOfBoundsException if the index is out of range (index < 0 || index >= size())
      */

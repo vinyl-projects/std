@@ -9,7 +9,7 @@ namespace vinyl\std\lang\collections;
  *
  * Unordered readonly hash set implementation
  *
- * @template T of string|object|bool|int|null
+ * @template-covariant T of string|object|bool|int|null
  * @extends ReadonlySet<T>
  */
 final class HashSet extends ReadonlySet

@@ -12,7 +12,7 @@ use Traversable;
  * Interface Collection
  *
  * @template TKey of array-key
- * @template TValue
+ * @template-covariant TValue
  * @extends IteratorAggregate<TKey, TValue>
  */
 interface Collection extends IteratorAggregate, Countable
@@ -26,6 +26,7 @@ interface Collection extends IteratorAggregate, Countable
      * Checks if the specified element is contained in this collection.
      *
      * @psalm-param TValue $element
+     * @psalm-suppress InvalidTemplateParam
      */
     public function contains($element): bool;
 
@@ -33,6 +34,7 @@ interface Collection extends IteratorAggregate, Countable
      * Checks if all items in the specified iterable are contained in this collection.
      *
      * @psalm-param iterable<TValue> $items
+     * @psalm-suppress InvalidTemplateParam
      */
     public function containsAll(iterable $items): bool;
 

@@ -18,7 +18,7 @@ use function spl_object_id;
 /**
  * Class ReadonlySet
  *
- * @template T of string|object|bool|int|null
+ * @template-covariant T of string|object|bool|int|null
  * @implements Set<T>
  */
 abstract class ReadonlySet implements Set
@@ -57,6 +57,7 @@ abstract class ReadonlySet implements Set
     /**
      * {@inheritDoc}
      * @psalm-suppress RedundantConditionGivenDocblockType
+     * @psalm-suppress TypeDoesNotContainType
      */
     public function contains($element): bool
     {
@@ -101,6 +102,7 @@ abstract class ReadonlySet implements Set
 
     /**
      * @return ArrayIterator<int, T>
+     * @psalm-suppress InvalidTemplateParam
      */
     public function getIterator(): \Traversable
     {
@@ -197,6 +199,8 @@ abstract class ReadonlySet implements Set
      * @psalm-param T2 $element
      *
      * @psalm-suppress RedundantConditionGivenDocblockType
+     * @psalm-suppress TypeDoesNotContainType
+     * @psalm-suppress InvalidArrayOffset
      */
     final protected static function assign(ReadonlySet $object, $element): void
     {

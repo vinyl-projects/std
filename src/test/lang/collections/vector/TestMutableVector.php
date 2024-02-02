@@ -11,8 +11,15 @@ use function vinyl\std\lang\collections\immutableVectorOf;
 /**
  * Class MutableVectorTest
  */
-abstract class MutableVectorTest extends ReadonlyVectorTest
+abstract class TestMutableVector extends TestReadonlyVector
 {
+    /**
+     * @template T
+     * @psalm-param T ...$elements
+     * @return \vinyl\std\lang\collections\MutableVector<T>
+     */
+    abstract protected static function createList(...$elements): MutableVector;
+
     /**
      * @test
      */
@@ -121,11 +128,4 @@ abstract class MutableVectorTest extends ReadonlyVectorTest
         $mutableList = static::createList(1, 2, 3);
         $mutableList->removeAt(42);
     }
-
-    /**
-     * @template T
-     * @psalm-param T ...$elements
-     * @return \vinyl\std\lang\collections\MutableVector<T>
-     */
-    abstract protected static function createList(...$elements): MutableVector;
 }

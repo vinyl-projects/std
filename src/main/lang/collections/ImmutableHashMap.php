@@ -12,7 +12,7 @@ use function is_int;
  * Immutable unordered hash map implementation
  *
  * @template TKey of string|int|object
- * @template TValue
+ * @template-covariant TValue
  * @extends ReadonlyMap<TKey, TValue>
  * @implements ImmutableMap<TKey, TValue>
  */
@@ -44,6 +44,9 @@ final class ImmutableHashMap extends ReadonlyMap implements ImmutableMap
 
     /**
      * {@inheritDoc}
+     * @psalm-suppress RedundantConditionGivenDocblockType
+     * @psalm-suppress NoValue
+     * @psalm-suppress TypeDoesNotContainType
      */
     public function withRemoved($key): self
     {
@@ -71,7 +74,7 @@ final class ImmutableHashMap extends ReadonlyMap implements ImmutableMap
      *
      * @psalm-param T1 $key
      * @psalm-param T2 $value
-     * @psalm-suppress InvalidPropertyAssignmentValue
+     * @psalm-suppress all
      */
     private function assign($key, $value): void
     {

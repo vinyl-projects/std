@@ -10,7 +10,7 @@ namespace vinyl\std\lang\collections;
  * Unordered {@see \vinyl\std\lang\collections\Map} implementation
  *
  * @template TKey of string|int|object
- * @template TValue
+ * @template-covariant TValue
  * @extends ReadonlyMap<TKey, TValue>
  */
 final class HashMap extends ReadonlyMap

@@ -14,7 +14,7 @@ use function in_array;
 /**
  * Class ReadonlyArrayVector
  *
- * @template T
+ * @template-covariant T
  * @template-implements Vector<T>
  */
 abstract class ReadonlyArrayVector implements Vector
@@ -42,7 +42,8 @@ abstract class ReadonlyArrayVector implements Vector
     }
 
     /**
-     * @return ArrayIterator<int, T>
+     * @return ArrayIterator<int<0, max>, T>
+     * @psalm-suppress InvalidTemplateParam
      */
     public function getIterator(): Traversable
     {
@@ -102,6 +103,14 @@ abstract class ReadonlyArrayVector implements Vector
     public function find(int $index)
     {
         return $this->elements[$index] ?? null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function findFirst()
+    {
+        return $this->elements[0] ?? null;
     }
 
     /**

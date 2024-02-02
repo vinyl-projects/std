@@ -13,8 +13,16 @@ use function vinyl\std\lang\collections\vectorOf;
 /**
  * Class ImmutableVectorTest
  */
-abstract class ImmutableVectorTest extends ReadonlyVectorTest
+abstract class ImmutableVectorCommon extends TestReadonlyVector
 {
+    /**
+     * @template T
+     * @psalm-param T ...$elements
+     *
+     * @return \vinyl\std\lang\collections\ImmutableVector<T>
+     */
+    abstract protected static function createList(...$elements): ImmutableVector;
+
     /**
      * @test
      */
@@ -84,12 +92,12 @@ abstract class ImmutableVectorTest extends ReadonlyVectorTest
         };
 
         /** @var ImmutableVector<int> $list */
-        $list = static::createList(1,2,3);
+        $list = static::createList(1, 2, 3);
         $newList = $list->withAll($customCollection);
 
         self::assertNotSame($list, $newList);
-        self::assertSame([1,2,3], iterator_to_array($list->getIterator()));
-        self::assertSame([1,2,3,1,2,3], iterator_to_array($newList->getIterator()));
+        self::assertSame([1, 2, 3], iterator_to_array($list->getIterator()));
+        self::assertSame([1, 2, 3, 1, 2, 3], iterator_to_array($newList->getIterator()));
     }
 
     /**
@@ -153,12 +161,4 @@ abstract class ImmutableVectorTest extends ReadonlyVectorTest
         $list = static::createList(1, 2, 3);
         $list->withRemovedAt(42);
     }
-
-    /**
-     * @template T
-     * @psalm-param T ...$elements
-     *
-     * @return \vinyl\std\lang\collections\ImmutableVector<T>
-     */
-    abstract protected static function createList(...$elements): ImmutableVector;
 }

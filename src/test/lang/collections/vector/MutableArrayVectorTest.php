@@ -13,7 +13,7 @@ use function array_values;
  *
  * @psalm-suppress PropertyNotSetInConstructor
  */
-class MutableArrayVectorTest extends MutableVectorTest
+class MutableArrayVectorTest extends TestMutableVector
 {
     /**
      * {@inheritDoc}

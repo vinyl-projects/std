@@ -7,7 +7,7 @@ namespace vinyl\std\lang\collections;
 /**
  * Class ArrayVector
  *
- * @template T
+ * @template-covariant T
  * @extends ReadonlyArrayVector<T>
  */
 final class ArrayVector extends ReadonlyArrayVector

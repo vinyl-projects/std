@@ -14,7 +14,7 @@ use function assert;
 /**
  * Class ImmutableArrayVector
  *
- * @template T
+ * @template-covariant T
  * @extends ReadonlyArrayVector<T>
  * @implements ImmutableVector<T>
  */

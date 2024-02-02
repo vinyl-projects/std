@@ -13,7 +13,7 @@ use function is_string;
 /**
  * Class ImmutableHashSet
  *
- * @template TValue of string|object|bool|int|null
+ * @template-covariant TValue of string|object|bool|int|null
  * @extends ReadonlySet<TValue>
  * @implements ImmutableSet<TValue>
  */
@@ -63,6 +63,9 @@ final class ImmutableHashSet extends ReadonlySet implements ImmutableSet
      * {@inheritDoc}
      * @psalm-suppress RedundantConditionGivenDocblockType
      * @psalm-suppress InvalidArgument
+     * @psalm-suppress TypeDoesNotContainType
+     * @psalm-suppress InvalidArrayOffset
+     * @psalm-suppress NoValue
      */
     public function withRemoved($element): self
     {

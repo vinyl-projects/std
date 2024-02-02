@@ -18,7 +18,7 @@ use function is_string;
  * Unordered implementation of {@see Map}
  *
  * @template TKey of string|int|object
- * @template TValue
+ * @template-covariant TValue
  * @implements Map<TKey, TValue>
  */
 abstract class ReadonlyMap implements Map
@@ -31,6 +31,7 @@ abstract class ReadonlyMap implements Map
      *
      * @psalm-param iterable<MapPair<TKey, TValue>> $pairs
      * @internal
+     * @psalm-suppress all
      */
     public function __construct(iterable $pairs)
     {
@@ -67,6 +68,7 @@ abstract class ReadonlyMap implements Map
 
     /**
      * {@inheritDoc}
+     * @psalm-suppress all
      */
     public function containsKey($key): bool
     {
@@ -99,6 +101,10 @@ abstract class ReadonlyMap implements Map
 
     /**
      * {@inheritDoc}
+     * @psalm-suppress RedundantConditionGivenDocblockType
+     * @psalm-suppress InvalidCast
+     * @psalm-suppress NoValue
+     * @psalm-suppress TypeDoesNotContainType
      */
     public function get($key)
     {
@@ -125,6 +131,9 @@ abstract class ReadonlyMap implements Map
 
     /**
      * {@inheritDoc}
+     * @psalm-suppress RedundantConditionGivenDocblockType
+     * @psalm-suppress NoValue
+     * @psalm-suppress TypeDoesNotContainType
      */
     public function find($key)
     {

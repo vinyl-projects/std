@@ -13,7 +13,7 @@ use function array_splice;
 /**
  * Class MutableArrayVector
  *
- * @template T
+ * @template-covariant T
  * @implements MutableVector<T>
  * @extends ReadonlyArrayVector<T>
  */

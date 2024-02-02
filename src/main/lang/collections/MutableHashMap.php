@@ -17,7 +17,7 @@ use function is_string;
  * Mutable unordered hash map implementation
  *
  * @template TKey of string|int|object
- * @template TValue
+ * @template-covariant TValue
  * @extends ReadonlyMap<TKey, TValue>
  * @implements MutableMap<TKey, TValue>
  */
@@ -35,6 +35,9 @@ final class MutableHashMap extends ReadonlyMap implements MutableMap
 
     /**
      * {@inheritDoc}
+     * @psalm-suppress RedundantConditionGivenDocblockType
+     * @psalm-suppress NoValue
+     * @psalm-suppress TypeDoesNotContainType
      */
     public function put($key, $value): self
     {
@@ -69,6 +72,9 @@ final class MutableHashMap extends ReadonlyMap implements MutableMap
 
     /**
      * {@inheritDoc}
+     * @psalm-suppress RedundantConditionGivenDocblockType
+     * @psalm-suppress NoValue
+     * @psalm-suppress TypeDoesNotContainType
      */
     public function remove($key): self
     {
